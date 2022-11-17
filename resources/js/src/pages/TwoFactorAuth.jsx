@@ -3,7 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { verifyCode, resendCode, reset } from "../features/auth/authSlice";
+import {
+    verifyCode,
+    resendCode,
+    reset,
+    getCurrentUser,
+} from "../features/auth/authSlice";
 import MainContainer from "../components/MainContainer";
 
 const TwoFactorAuth = () => {
@@ -26,6 +31,7 @@ const TwoFactorAuth = () => {
         if (isSuccess) {
             toast.success(message);
             dispatch(reset());
+            dispatch(getCurrentUser());
             navigate("/dashboard", { replace: true });
         }
     }, [isError, isSuccess, message, navigate, dispatch]);

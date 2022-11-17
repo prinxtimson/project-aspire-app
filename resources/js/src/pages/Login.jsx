@@ -6,7 +6,7 @@ import MainContainer from "../components/MainContainer";
 import ReactGA from "react-ga";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
-import { login, reset } from "../features/auth/authSlice";
+import { getCurrentUser, login, reset } from "../features/auth/authSlice";
 
 const Login = () => {
     const { t } = useTranslation(["login"]);
@@ -37,6 +37,7 @@ const Login = () => {
 
         if (isSuccess) {
             dispatch(reset());
+            dispatch(getCurrentUser());
             navigate("/two-factor-auth", { replace: true });
         }
     }, [user, isError, isSuccess, message, navigate, dispatch]);

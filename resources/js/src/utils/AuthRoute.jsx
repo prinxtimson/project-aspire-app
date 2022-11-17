@@ -9,16 +9,16 @@ const AuthRoute = ({ children }) => {
         return <Navigate to="/login" state={{ path: location.pathname }} />;
     }
 
-    if (!tfa) {
+    if (!isLoading && !tfa) {
         return (
             <Navigate
                 to="/two-factor-auth"
                 state={{ path: location.pathname }}
             />
         );
-    } else {
-        return children;
     }
+
+    return children;
 };
 
 export default AuthRoute;
