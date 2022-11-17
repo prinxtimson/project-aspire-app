@@ -1,0 +1,139 @@
+{
+    "app_title": "Elint-X",
+    "language": "Langue",
+    "admin_page": {
+        "title": "Tableau de bord",
+        "sub_title": "Tableau de visite",
+        "caption": "Type d'utilisateur",
+        "caption_2": "Visiteurs du site Web",
+        "x_axis": "Jour",
+        "y_axis": "Visiter",
+        "period": "Point final",
+        "select_period": "Sélectionnez la période",
+        "label": "Dernier {{num}} journées"
+    },
+    "index": {
+        "welcome": "Content de te revoir"
+    },
+    "container": {
+        "tab_1": "Nb de visite",
+        "tab_2": "Durée",
+        "tab_3": "Page visitée",
+        "tab_5": "Taux de rebond",
+        "tab_6": "Utilisateurs",
+        "tab_7": "Aliments",
+        "tab_8": "Santé",
+        "tab_9": "Divertissement",
+        "tab_10": "sport",
+        "tab_11": "Compte",
+        "no_result": "Aucun résultat trouvé",
+        "action": "action",
+        "welcome": "Bienvenu",
+        "profile": "Profil",
+        "change_password": "Changer le mot de passe",
+        "logout_btn": "Déconnexion"
+    },
+    "bounce_rate_chat": {
+        "title": "Taux de rebond",
+        "x_axis": "Jour",
+        "y_axis": "Pourcentage"
+    },
+    "duration_chat": {
+        "title": "Durée",
+        "caption": "Durée des sessions par jour",
+        "x_axis": "Jour",
+        "y_axis": "Temps"
+    },
+    "entertainment_chat": {
+        "music": "La musique",
+        "title": "Tendance {{name}} Vidéo",
+        "title_text": "Titre",
+        "author": "Auteur",
+        "caption": "Compte numérique",
+        "x_axis": "Auteur",
+        "y_axis": "Compter",
+        "caption_1": "Nombre de partages",
+        "caption_2": "Compteur de commentaire",
+        "caption_3": "Nombre de lectures"
+    },
+    "food_chat": {
+        "title": "Aliments",
+        "select_food": "Sélectionnez la nourriture",
+        "caption": "Total des nutriments quotidiens nécessaires",
+        "caption_1": "Nutriments totaux disponibles dans les aliments"
+    },
+    "sport_chat": {
+        "title": "Des sports",
+        "caption": "Classement Tennis",
+        "x_axis": "Nom",
+        "y_axis": "Points"
+    },
+    "page_visit_chat": {
+        "title": "Visite de la page",
+        "caption": "Page visitée par les utilisateurs",
+        "y_axis": "Visite totale"
+    },
+    "health_chat": {
+        "title": "Santé",
+        "country": "De campagne",
+        "caption": "Histoire du Covid 19",
+        "caption_1": "Cas de Covid19 dans le monde",
+        "caption_2": "Cas de Covid19 dans {{country}}",
+        "select_country": "Choisissez le pays",
+        "x_axis": "Date",
+        "y_axis": "Population",
+        "cases": "Cas",
+        "recovered": "Rétabli",
+        "deaths": "Des morts"
+    },
+    "footer": {
+        "copyright": "droits d'auteur",
+        "terms_and_conditions": "Termes {{sign}} Conditions",
+        "privacy_policy": "Politique de confidentialité"
+    },
+    "header": {
+        "nav_link": "Solutions",
+        "nav_link_1": "Abonnement",
+        "nav_link_2": "À propos de nous",
+        "nav_link_3": "Contactez-nous",
+        "nav_link_4": "Tableau de bord",
+        "nav_link_5": "S'inscrire",
+        "nav_link_6": "Connexion",
+        "paragraph": "Aucun résultat trouvé",
+        "action": "Action",
+        "welcome": "Bienvenu",
+        "profile": "Profil",
+        "change_password": "Changer le mot de passe",
+        "sign_out": "Se déconnecter"
+    },
+    "paypal_btn": {
+        "title": "Bouton Paypal",
+        "h2": "Félicitations! vous venez de payer pour cette photo. Travaillez un peu plus dur et vous pourrez vous permettre la voiture elle-même"
+    },
+    "subscription_table": {
+        "title": "Abonnement",
+        "th_0": "ID",
+        "th_1": "Date de début",
+        "th_2": "Date d'échéance",
+        "th_3": "Statut",
+        "th_4": "Payé le",
+        "th_5": "Action",
+        "btn_text": "Supprimer",
+        "table_text": "Pas encore d'abonnement disponible."
+    },
+    "users_table": {
+        "title": "Tableau des utilisateurs",
+        "all_users": "Tous les utilisateurs",
+        "trashed_users": "Utilisateurs supprimés",
+        "loading": "Chargement",
+        "th_0": "ID",
+        "th_1": "Nom d'utilisateur",
+        "th_2": "Nom",
+        "th_3": "E-mail",
+        "th_4": "Rôle",
+        "th_5": "Action",
+        "th_6": "Statut",
+        "btn_text": "Supprimer",
+        "table_text": "Pas encore d'abonnement disponible."
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "app_title": "Elint-X",
+    "language": "Idioma",
+    "title": "Inscribirse",
+    "sub_title": "Crea tu cuenta",
+    "name": "Nombre completo",
+    "email": "Dirección de correo electrónico",
+    "password": "Contraseña",
+    "confirm_password": "Confirmar contraseña",
+    "btn_text": "Registrarse",
+    "have_account": "¿Ya tienes una cuenta?",
+    "login": "acceso",
+    "privacy_policy": "Política de privacidad",
+    "terms_and_conditions": "Términos y condiciones"
+}

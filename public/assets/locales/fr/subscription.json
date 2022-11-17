@@ -1,0 +1,13 @@
+{
+    "app_title": "Elint-X",
+    "language": "Langue",
+    "title": "Abonnement",
+    "sub_title": "Formules d'abonnement",
+    "p": "Trouvez le plan qui aidera votre marque à se développer.",
+    "plan": "{{plan}}",
+    "basic": "De base",
+    "essentials": "Essentiel",
+    "platinum": "Platine",
+    "plan_detail": "{{plan_detail}}",
+    "subscribe_now": "Abonnez-vous maintenant"
+}

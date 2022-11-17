@@ -1,0 +1,139 @@
+{
+    "app_title": "Elint-X",
+    "language": "Language",
+    "admin_page": {
+        "title": "Dashboard",
+        "sub_title": "Visit Chart",
+        "caption": "Current Users",
+        "caption_2": "Visitors to website",
+        "x_axis": "Day",
+        "y_axis": "Visit",
+        "period": "Period",
+        "select_period": "Select Period",
+        "label": "Last {{num}} days"
+    },
+    "index": {
+        "welcome": "Welcome Back"
+    },
+    "container": {
+        "tab_1": "Dashboard",
+        "tab_2": "Report",
+        "tab_3": "Page Visited",
+        "tab_5": "Bounce Rate",
+        "tab_6": "Users",
+        "tab_7": "Food",
+        "tab_8": "Health",
+        "tab_9": "Entertainment",
+        "tab_10": "Sport",
+        "tab_11": "Account",
+        "no_result": "No result found",
+        "action": "Action",
+        "welcome": "Welcome",
+        "profile": "Profile",
+        "change_password": "Change Passsword",
+        "logout_btn": "Sign out"
+    },
+    "bounce_rate_chat": {
+        "title": "Bounce Rate",
+        "x_axis": "Day",
+        "y_axis": "Percentage"
+    },
+    "duration_chat": {
+        "title": "Duration",
+        "caption": "Duration of Sessions per Day",
+        "x_axis": "Day",
+        "y_axis": "Time"
+    },
+    "entertainment_chat": {
+        "music": "Music",
+        "title": "Trending {{name}} Video",
+        "title_text": "Title",
+        "author": "Author",
+        "caption": "Digital Count",
+        "x_axis": "Author",
+        "y_axis": "Count",
+        "caption_1": "Share Count",
+        "caption_2": "Comment Count",
+        "caption_3": "Play Count"
+    },
+    "food_chat": {
+        "title": "Food",
+        "select_food": "Select Food",
+        "caption": "Total Daily Nutrient Needed",
+        "caption_1": "Total Nutrient Available in Food"
+    },
+    "sport_chat": {
+        "title": "Sports",
+        "caption": "Tennis Ranking",
+        "x_axis": "Name",
+        "y_axis": "Points"
+    },
+    "page_visit_chat": {
+        "title": "Page Visit",
+        "caption": "Page Visited by Users",
+        "y_axis": "Total Visit"
+    },
+    "health_chat": {
+        "title": "Health",
+        "country": "Country",
+        "caption": "Covid19 History",
+        "caption_1": "Covid19 Cases Worldwide",
+        "caption_2": "Covid19 Cases in {{country}}",
+        "select_country": "Select Country",
+        "x_axis": "Date",
+        "y_axis": "Population",
+        "cases": "Cases",
+        "recovered": "Recovered",
+        "deaths": "Deaths"
+    },
+    "footer": {
+        "copyright": "Copyright",
+        "terms_and_conditions": "Terms {{sign}} Conditions",
+        "privacy_policy": "Privacy Policy"
+    },
+    "header": {
+        "nav_link": "Solutions",
+        "nav_link_1": "Subscription",
+        "nav_link_2": "About us",
+        "nav_link_3": "Contact us",
+        "nav_link_4": "Dashboard",
+        "nav_link_5": "Register",
+        "nav_link_6": "Login",
+        "paragraph": "No result found",
+        "action": "Action",
+        "welcome": "Welcome",
+        "profile": "Profile",
+        "change_password": "Change Passsword",
+        "sign_out": "Sign Out"
+    },
+    "paypal_btn": {
+        "title": "Paypal Button",
+        "h2": "Congrats! you just paid for that picture. Work a little harder and you'll be able to afford the car itself"
+    },
+    "subscription_table": {
+        "title": "Subscription",
+        "th_0": "ID",
+        "th_1": "Start Date",
+        "th_2": "Due Date",
+        "th_3": "Status",
+        "th_4": "Paid On",
+        "th_5": "Action",
+        "btn_text": "Delete",
+        "table_text": "No subscription available yet."
+    },
+    "users_table": {
+        "title": "Users Table",
+        "all_users": "All Users",
+        "trashed_users": "Trashed users",
+        "loading": "Loading",
+        "th_0": "ID",
+        "th_1": "Username",
+        "th_2": "Name",
+        "th_3": "Email",
+        "th_4": "Role",
+        "th_5": "Action",
+        "th_6": "Status",
+        "btn_text": "Delete",
+        "table_text": "No subscription available yet."
+    }
+}

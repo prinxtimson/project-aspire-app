@@ -1,0 +1,13 @@
+{
+    "app_title": "Elint-X",
+    "language": "Idioma",
+    "title": "Iniciar sesión",
+    "sub_title": "Iniciar sesión en su cuenta",
+    "email": "Dirección de correo electrónico",
+    "password": "Contraseña",
+    "remember_me": "Recuérdame",
+    "forgot_password": "¿Has olvidado tu contraseña?",
+    "btn_text": "Iniciar sesión",
+    "do_not_have_account": "¿No tienes una cuenta?",
+    "register": "Registrarse"
+}

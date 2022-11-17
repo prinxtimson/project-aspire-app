@@ -1,0 +1,13 @@
+{
+    "app_title": "Elint-X",
+    "language": "Language",
+    "title": "Subscription",
+    "sub_title": "Subscription Plans",
+    "p": "Find the plan that will help your brand grow.",
+    "basic": "Silver",
+    "essentials": "Gold",
+    "platinum": "Platinum",
+    "plan": "{{plan}}",
+    "plan_detail": "{{plan_detail}}",
+    "subscribe_now": "Subscribe Now"
+}

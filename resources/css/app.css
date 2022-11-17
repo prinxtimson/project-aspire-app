@@ -1,0 +1,12 @@
+.ul-opt {
+    margin: 0 !important;
+    padding: 44px;
+}
+
+.ul-opt li {
+    text-align: left;
+    list-style-type: none;
+    color: black;
+    margin-bottom: 30px;
+    font-weight: 300;
+}

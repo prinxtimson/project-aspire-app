@@ -1,0 +1,139 @@
+{
+    "app_title": "Elint-X",
+    "language": "Idioma",
+    "admin_page": {
+        "title": "Tablero de mandos",
+        "sub_title": "Tabla de visitas",
+        "caption": "Tipo de usuario",
+        "caption_2": "Visitantes del sitio web",
+        "x_axis": "Día",
+        "y_axis": "Visita",
+        "period": "Período",
+        "select_period": "Seleccione Periodo",
+        "label": "Última {{num}} días"
+    },
+    "index": {
+        "welcome": "Bienvenido de nuevo"
+    },
+    "container": {
+        "tab_1": "No de visita",
+        "tab_2": "Duración",
+        "tab_3": "Página visitada",
+        "tab_5": "Porcentaje de rebote",
+        "tab_6": "Usuarias",
+        "tab_7": "Comida",
+        "tab_8": "Salud",
+        "tab_9": "Entretenimiento",
+        "tab_10": "Deporte",
+        "tab_11": "Cuenta",
+        "no_result": "No se han encontrado resultados",
+        "action": "Acción",
+        "welcome": "Bienvenidas",
+        "profile": "Perfil",
+        "change_password": "Cambiar contraseña",
+        "logout_btn": "desconectar"
+    },
+    "bounce_rate_chat": {
+        "title": "Porcentaje de rebote",
+        "x_axis": "Día",
+        "y_axis": "Porcentaje"
+    },
+    "duration_chat": {
+        "title": "Duración",
+        "caption": "Duración de las sesiones por Día",
+        "x_axis": "Día",
+        "y_axis": "Hora"
+    },
+    "entertainment_chat": {
+        "music": "Música",
+        "title": "Tendencias {{name}} Video",
+        "title_text": "Título",
+        "author": "Autor",
+        "caption": "Cuenta digital",
+        "x_axis": "Autor",
+        "y_axis": "Contar",
+        "caption_1": "Recuento de acciones",
+        "caption_2": "Recuento de comentarios",
+        "caption_3": "Recuento de reproducción"
+    },
+    "food_chat": {
+        "title": "Comida",
+        "select_food": "Seleccionar comida",
+        "caption": "Total de nutrientes diarios necesarios",
+        "caption_1": "Nutrientes totales disponibles en los alimentos"
+    },
+    "sport_chat": {
+        "title": "Deportes",
+        "caption": "Clasificación de tenis",
+        "x_axis": "Nombre",
+        "y_axis": "Puntos"
+    },
+    "page_visit_chat": {
+        "title": "Visita a la página",
+        "caption": "Página visitada por los usuarios",
+        "y_axis": "Visita Total"
+    },
+    "health_chat": {
+        "title": "Salud",
+        "country": "País",
+        "caption": "Historia del Covid19",
+        "caption_1": "Casos de Covid19 en todo el mundo",
+        "caption_2": "Casos de Covid19 en {{country}}",
+        "select_country": "Seleccionar país",
+        "x_axis": "Fecha",
+        "y_axis": "Población",
+        "cases": "Casos",
+        "recovered": "Recuperado",
+        "deaths": "Fallecidos"
+    },
+    "footer": {
+        "copyright": "Derechos de autor",
+        "terms_and_conditions": "Condiciones {{sign}} Condiciones",
+        "privacy_policy": "Política de privacidad"
+    },
+    "header": {
+        "nav_link": "Soluciones",
+        "nav_link_1": "Subscription",
+        "nav_link_2": "Sobre nosotros",
+        "nav_link_3": "Contacta con nosotros",
+        "nav_link_4": "Tablero de mandos",
+        "nav_link_5": "Registrarse",
+        "nav_link_6": "Acceso",
+        "paragraph": "No se han encontrado resultados",
+        "action": "Acción",
+        "welcome": "Bienvenidos",
+        "profile": "Perfil",
+        "change_password": "Cambiar contraseña",
+        "sign_out": "Desconectar"
+    },
+    "paypal_btn": {
+        "title": "Botón de PayPal",
+        "h2": "¡Felicitaciones! acabas de pagar por esa foto. Trabaja un poco más y podrás comprarte el auto"
+    },
+    "subscription_table": {
+        "title": "Suscripción",
+        "th_0": "ID",
+        "th_1": "Fecha de inicio",
+        "th_2": "Fecha de vencimiento",
+        "th_3": "Estado",
+        "th_4": "Pagado en",
+        "th_5": "Acción",
+        "btn_text": "Borrar",
+        "table_text": "Aún no hay suscripción disponible."
+    },
+    "users_table": {
+        "title": "Tabla de usuarios",
+        "all_users": "Todos los usuarios",
+        "trashed_users": "Usuarios trucados",
+        "loading": "Cargando",
+        "th_0": "ID",
+        "th_1": "Nombre de usuario",
+        "th_2": "Nombre",
+        "th_3": "Correo electrónico",
+        "th_4": "Papel",
+        "th_5": "Acción",
+        "th_6": "Status",
+        "btn_text": "Borrar",
+        "table_text": "Aún no hay suscripción disponible."
+    }
+}

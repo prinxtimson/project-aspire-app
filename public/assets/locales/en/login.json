@@ -1,0 +1,13 @@
+{
+    "app_title": "Elint-X",
+    "language": "Language",
+    "title": "Sign In",
+    "sub_title": "Sign Into Your Account",
+    "email": "Email address",
+    "password": "Password",
+    "remember_me": "Remember me",
+    "forgot_password": "Forgot Password?",
+    "btn_text": "Signin",
+    "do_not_have_account": "Don't have an account?",
+    "register": "Register"
+}
