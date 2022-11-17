@@ -285,6 +285,7 @@ export const authSlice = createSlice({
             .addCase(verifyCode.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
+                state.tfa = true;
                 state.message = "Successful";
             })
             .addCase(verifyCode.rejected, (state, action) => {
