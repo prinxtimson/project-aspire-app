@@ -60,75 +60,75 @@ window.__be.id = "61640416d231420007501199";
 
 <script type="module">
 // Import the functions you need from the SDKs you need
-import {
-  initializeApp
-} from "https://www.gstatic.com/firebasejs/9.0.1/firebase-app.js";
-import {
-  getAnalytics
-} from "https://www.gstatic.com/firebasejs/9.0.1/firebase-analytics.js";
-import {
-  getMessaging,
-  getToken
-} from "https://www.gstatic.com/firebasejs/9.0.1/firebase-messaging.js";
+// import {
+//   initializeApp
+// } from "https://www.gstatic.com/firebasejs/9.0.1/firebase-app.js";
+// import {
+//   getAnalytics
+// } from "https://www.gstatic.com/firebasejs/9.0.1/firebase-analytics.js";
+// import {
+//   getMessaging,
+//   getToken
+// } from "https://www.gstatic.com/firebasejs/9.0.1/firebase-messaging.js";
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: '{{env("GOOGLE_API_ID")}}',
-  authDomain: '{{env("GOOGLE_AUTH_DOMAIN")}}',
-  projectId: '{{env("GOOGLE_PROJECT_ID")}}',
-  storageBucket: '{{env("GOOGLE_STORAGE_BUCKET")}}',
-  messagingSenderId: '{{env("GOOGLE_MESSAGING_SENDER_ID")}}',
-  appId: '{{env("GOOGLE_API_ID")}}',
-  measurementId: '{{env("GOOGLE_MEASUREMENT_ID")}}'
-};
+// // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// const firebaseConfig = {
+//   apiKey: '{{env("GOOGLE_API_ID")}}',
+//   authDomain: '{{env("GOOGLE_AUTH_DOMAIN")}}',
+//   projectId: '{{env("GOOGLE_PROJECT_ID")}}',
+//   storageBucket: '{{env("GOOGLE_STORAGE_BUCKET")}}',
+//   messagingSenderId: '{{env("GOOGLE_MESSAGING_SENDER_ID")}}',
+//   appId: '{{env("GOOGLE_API_ID")}}',
+//   measurementId: '{{env("GOOGLE_MEASUREMENT_ID")}}'
+// };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const messaging = getMessaging();
+// // Initialize Firebase
+// const app = initializeApp(firebaseConfig);
+// const analytics = getAnalytics(app);
+// const messaging = getMessaging();
 
-$(document).ready(function() {
+// $(document).ready(function() {
 
-  //$('#modalTigger')[0].click()
-  $('#freeTrialModal').on('hidden.bs.modal', function() {
-    // Let's check if the browser supports notifications
-    if (!("Notification" in window)) {
-      alert("This browser does not support desktop notification");
-    } else if (Notification.permission === "granted") {
-      // If it's okay let's create a notification
-      messaging.onMessage(function(payload) {
-        const title = payload.notification.title;
-        const options = {
-          body: payload.notification.body,
-          icon: payload.notification.icon,
-        };
-        new Notification(title, options);
-      });
-    } else if (Notification.permission !== "denied") {
-      Notification.requestPermission().then(function(permission) {
-        // If the user accepts, let's create a notification
-        if (permission === "granted") {
-          getToken(messaging).then((res) => {
-            console.log(res)
-            return window.axios.post('/store-token', {
-              token: res
-            })
-          }).then(res => {
-            console.log(res.data)
-            messaging.onMessage(function(payload) {
-              const title = payload.notification.title;
-              const options = {
-                body: payload.notification.body,
-                icon: payload.notification.icon,
-              };
-              new Notification(title, options);
-            });
-          });
-        }
-      });
-    }
-  })
-})
+//   //$('#modalTigger')[0].click()
+//   $('#freeTrialModal').on('hidden.bs.modal', function() {
+//     // Let's check if the browser supports notifications
+//     if (!("Notification" in window)) {
+//       alert("This browser does not support desktop notification");
+//     } else if (Notification.permission === "granted") {
+//       // If it's okay let's create a notification
+//       messaging.onMessage(function(payload) {
+//         const title = payload.notification.title;
+//         const options = {
+//           body: payload.notification.body,
+//           icon: payload.notification.icon,
+//         };
+//         new Notification(title, options);
+//       });
+//     } else if (Notification.permission !== "denied") {
+//       Notification.requestPermission().then(function(permission) {
+//         // If the user accepts, let's create a notification
+//         if (permission === "granted") {
+//           getToken(messaging).then((res) => {
+//             console.log(res)
+//             return window.axios.post('/store-token', {
+//               token: res
+//             })
+//           }).then(res => {
+//             console.log(res.data)
+//             messaging.onMessage(function(payload) {
+//               const title = payload.notification.title;
+//               const options = {
+//                 body: payload.notification.body,
+//                 icon: payload.notification.icon,
+//               };
+//               new Notification(title, options);
+//             });
+//           });
+//         }
+//       });
+//     }
+//   })
+// })
 </script>
     </body>
 </html>
