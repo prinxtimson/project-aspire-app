@@ -343,7 +343,7 @@ export const authSlice = createSlice({
             .addCase(changePass.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.message = action.payload.message;
+                state.message = action.payload;
             })
             .addCase(changePass.rejected, (state, action) => {
                 state.isLoading = false;
@@ -369,7 +369,7 @@ export const authSlice = createSlice({
             .addCase(resendVerification.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.message = action.payload.message;
+                state.message = action.payload;
             })
             .addCase(resendVerification.rejected, (state, action) => {
                 state.isLoading = false;

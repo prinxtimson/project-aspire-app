@@ -26,9 +26,7 @@ const TwoFactorAuth = () => {
         if (isSuccess) {
             toast.success(message);
             dispatch(reset());
-            if (message === "Successful") {
-                navigate("/dashboard");
-            }
+            navigate("/dashboard", { replace: true });
         }
     }, [isError, isSuccess, message, navigate, dispatch]);
 

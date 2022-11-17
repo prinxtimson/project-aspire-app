@@ -16,9 +16,9 @@ const AuthRoute = ({ children }) => {
                 state={{ path: location.pathname }}
             />
         );
+    } else {
+        return children;
     }
-
-    return children;
 };
 
 export default AuthRoute;

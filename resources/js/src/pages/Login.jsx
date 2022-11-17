@@ -37,7 +37,7 @@ const Login = () => {
 
         if (isSuccess) {
             dispatch(reset());
-            navigate("/two-factor-auth");
+            navigate("/two-factor-auth", { replace: true });
         }
     }, [user, isError, isSuccess, message, navigate, dispatch]);
 
