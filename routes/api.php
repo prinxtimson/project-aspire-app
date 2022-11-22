@@ -8,6 +8,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\AnalysisController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\FeedbackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +64,19 @@ Route::group(['middleware' => ['auth:sanctum', '2fa']], function () {
     //Route::get('sport/football/{id}', [ChartController::class, 'statistics']);
 
     Route::get('food-and-drinks/{food}', [ChartController::class, 'food']);
+
+    Route::get('feedbacks', [FeedbackController::class, 'index']);
+    Route::get('feedbacks/{id}', [FeedbackController::class, 'show']);
+    Route::post('feedbacks/{id}/archive', [FeedbackController::class, 'archiveFeedback']);
+    Route::post('feedbacks', [FeedbackController::class, 'store']);
+
+    Route::get('bookings', [BookingController::class, 'index']);
+    Route::get('bookings/all', [BookingController::class, 'all']);
+    Route::get('bookings/{id}', [BookingController::class, 'show']);
+    Route::post('bookings/{id}/cancel', [BookingController::class, 'cancel']);
+    Route::post('bookings', [BookingController::class, 'store']);
+    Route::put('bookings/{id}', [BookingController::class, 'update']);
+    Route::delete('bookings/{id}', [BookingController::class, 'destroy']);
 
     Route::get('analytics/visit/{days}', [AnalysisController::class, 'index']);
     Route::get('analytics/most/{days}', [AnalysisController::class, 'show']);

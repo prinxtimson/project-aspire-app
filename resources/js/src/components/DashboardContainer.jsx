@@ -137,15 +137,28 @@ const DashboardContainer = ({ children }) => {
 
                                 <li>
                                     <Link
-                                        to="/dashboard/product-catalogue"
+                                        to="/dashboard/feedbacks"
                                         className={`nav-link fw-bold ${
                                             window.location.pathname ===
-                                            "/dashboard/product-catalogue"
+                                            "/dashboard/feedbacks"
                                                 ? "active-tab bg-white"
                                                 : "text-white"
                                         }`}
                                     >
-                                        Product Catalogue
+                                        Feedback
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        to="/dashboard/archives"
+                                        className={`nav-link fw-bold ${
+                                            window.location.pathname ===
+                                            "/dashboard/archives"
+                                                ? "active-tab bg-white"
+                                                : "text-white"
+                                        }`}
+                                    >
+                                        Archives
                                     </Link>
                                 </li>
                                 {/* <li>
@@ -229,6 +242,7 @@ const DashboardContainer = ({ children }) => {
                     </ul>
                     <hr />
                 </nav>
+
                 <main className="flex-grow-1">
                     <nav
                         className="navbar navbar-light bg-white py-0"
@@ -437,8 +451,32 @@ const DashboardContainer = ({ children }) => {
                             </div>
                         </div>
                     </nav>
+                    <div className="mx-5 pt-2 d-flex justify-content-end">
+                        <a
+                            href="mailto:"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mx-2"
+                        >
+                            <i
+                                className="bi bi-envelope"
+                                style={{ fontSize: 30 }}
+                            ></i>
+                        </a>
+                        <a
+                            href="http://slack.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mx-2"
+                        >
+                            <i
+                                className="bi bi-slack"
+                                style={{ fontSize: 30 }}
+                            ></i>
+                        </a>
+                    </div>
                     {children}
-                    <MainFooter />
+                    <MainFooter dark={true} />
                 </main>
             </div>
         </div>

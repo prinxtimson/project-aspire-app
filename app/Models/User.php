@@ -28,6 +28,7 @@ class User extends Authenticatable implements HasMedia
         'name',
         'avatar',
         'username',
+        'status',
         'email',
         'password',
         'device_token',
@@ -62,6 +63,11 @@ class User extends Authenticatable implements HasMedia
     public function subscription()
     {
         return $this->hasMany(Subscription::class);
+    }
+
+    public function bookings ()
+    {
+       return $this->hasMany(Booking::class);
     }
 
     public function two_factor () 

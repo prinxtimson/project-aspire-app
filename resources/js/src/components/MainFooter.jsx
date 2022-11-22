@@ -25,7 +25,7 @@ const LANGUAGES = [
 
 const cookies = new Cookies();
 
-const MainFooter = () => {
+const MainFooter = ({ dark }) => {
     const { t } = useTranslation(["dashboard"]);
     const currentLangCode = cookies.get("i18next") || "en";
     const currentLang = LANGUAGES.find((lang) => lang.code === currentLangCode);
@@ -39,11 +39,11 @@ const MainFooter = () => {
         <div className="container">
             <div className="row align-items-center">
                 <div className="col">
-                    <p className=" mb-0 text-white">
+                    <p className={`mb-0 ${!dark && "text-white"}`}>
                         {t("footer.copyright") + " © "}
                         <a
                             color="inherit"
-                            className="text-white"
+                            className={`${!dark && "text-white"}`}
                             href="https://tritekconsulting.co.uk"
                         >
                             Tritek Consulting Ltd
@@ -56,7 +56,9 @@ const MainFooter = () => {
                     <div className="btn-group dropup">
                         <button
                             type="button"
-                            className="btn btn-link dropdown-toggle text-white"
+                            className={`btn btn-link dropdown-toggle ${
+                                !dark && "text-white"
+                            }`}
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
                         >
@@ -91,7 +93,7 @@ const MainFooter = () => {
                     <ul className="nav justify-content-center">
                         <li className="nav-item">
                             <Link
-                                className="nav-link text-white"
+                                className={`nav-link ${!dark && "text-white"}`}
                                 //to="/terms-and-conditions"
                                 to="#"
                             >
@@ -100,9 +102,9 @@ const MainFooter = () => {
                                 })}
                             </Link>
                         </li>
-                        <li className="nav-item text-white">
+                        <li className="nav-item">
                             <Link
-                                className="nav-link text-white"
+                                className={`nav-link ${!dark && "text-white"}`}
                                 //to="/privacy-policy"
                                 to="#"
                             >
@@ -111,11 +113,15 @@ const MainFooter = () => {
                         </li>
                     </ul>
                 </div>
-                {/*
-                <div className="col">
+
+                <div className="col me-4">
                     <ul className="nav justify-content-end">
                         <li className="nav-item">
-                            <a className="nav-link text-white" href="#">
+                            <a
+                                className={`nav-link ${!dark && "text-white"}`}
+                                href="https://www.facebook.com/"
+                                target="_blank"
+                            >
                                 <i
                                     className="fab fa-facebook-square"
                                     style={{ fontSize: 25 }}
@@ -123,7 +129,11 @@ const MainFooter = () => {
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link text-white" href="#">
+                            <a
+                                className={`nav-link ${!dark && "text-white"}`}
+                                href="https://twitter.com/"
+                                target="_blank"
+                            >
                                 <i
                                     className="fab fa-twitter"
                                     style={{ fontSize: 25 }}
@@ -131,16 +141,31 @@ const MainFooter = () => {
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link text-white" href="#">
+                            <a
+                                className={`nav-link ${!dark && "text-white"}`}
+                                href="https://www.instagram.com/"
+                                target="_blank"
+                            >
                                 <i
                                     className="fab fa-instagram"
                                     style={{ fontSize: 25 }}
                                 ></i>
                             </a>
                         </li>
+                        <li className="nav-item">
+                            <a
+                                className={`nav-link ${!dark && "text-white"}`}
+                                href="https://www.linkedin.com/"
+                                target="_blank"
+                            >
+                                <i
+                                    className="fab fa-linkedin"
+                                    style={{ fontSize: 25 }}
+                                ></i>
+                            </a>
+                        </li>
                     </ul>
                 </div>
-                */}
             </div>
         </div>
     );

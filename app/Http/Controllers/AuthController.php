@@ -69,6 +69,7 @@ class AuthController extends Controller
 
         $fields = $request->validate([
             'name' => 'required|string',
+            'user_status' => 'required|string'
         ]);
 
         $username = str_replace(' ', '', trim($fields['name']));
@@ -77,6 +78,7 @@ class AuthController extends Controller
         $user->update([
             'name' =>  $fields['name'],
             'username' => strtolower($username),
+            'status' => $fields['user_status'] ?? $user['status']
         ]);
 
         if ($request->hasFile('avatar')) {

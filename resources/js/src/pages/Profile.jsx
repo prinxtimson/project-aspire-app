@@ -12,6 +12,7 @@ const Profile = () => {
     const [file, setFile] = useState(null);
     const [formData, setFormData] = useState({
         name: "",
+        status: "",
         avatar: "",
     });
 
@@ -20,7 +21,7 @@ const Profile = () => {
         (state) => state.auth
     );
 
-    const { name, avatar } = formData;
+    const { name, avatar, status } = formData;
 
     useEffect(() => {
         ReactGA.pageview(window.location.pathname);
@@ -40,7 +41,11 @@ const Profile = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
 
     useEffect(() => {
-        setFormData({ name: user?.name || "", avatar: user?.avatar || "" });
+        setFormData({
+            name: user?.name || "",
+            status: user?.status || "",
+            avatar: user?.avatar || "",
+        });
     }, [user]);
 
     const handleFileSelect = (e) => {
@@ -53,12 +58,13 @@ const Profile = () => {
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
-
+        //console.log(status);
         let data = new FormData();
         if (file) {
             data.append("avatar", file);
         }
         data.append("_method", "put");
+        data.append("user_status", status);
         data.append("name", name);
 
         dispatch(updateUser(data));
@@ -129,6 +135,25 @@ const Profile = () => {
                                     required
                                 />
                                 <label htmlFor="floatingInput">Full name</label>
+                            </div>
+                            <div className="form-floating col-12">
+                                <select
+                                    className="form-select form-control form-control-lg"
+                                    id="floatingSelect"
+                                    aria-label="Floating label select example"
+                                    name="status"
+                                    value={status}
+                                    onChange={handleOnChange}
+                                >
+                                    <option value="">Select Status</option>
+                                    <option value="break">Break</option>
+                                    <option value="comfort">Comfort</option>
+                                    <option value="meeting">Meeting</option>
+                                </select>
+
+                                <label htmlFor="floatingInput">
+                                    Change Status
+                                </label>
                             </div>
                             <div className="d-grid gap-2 col-12 mx-auto">
                                 <button

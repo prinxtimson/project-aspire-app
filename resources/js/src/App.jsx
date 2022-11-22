@@ -54,6 +54,8 @@ import ProductsTrendChart from "./pages/ProductTrends";
 import ProductsSalesChart from "./pages/ProductSales";
 import CurrentUsers from "./pages/CurrentUsers";
 import Fashion from "./pages/Fashion";
+import FeedbackTable from "./pages/FeedbackTable";
+import ArchiveFeedback from "./pages/ArchiveFeedback";
 
 ReactGA.initialize("UA-209541600-1");
 
@@ -229,6 +231,22 @@ const App = () => {
                             }
                         />
                         <Route
+                            path="feedbacks"
+                            element={
+                                <AuthRoute>
+                                    <FeedbackTable />
+                                </AuthRoute>
+                            }
+                        />
+                        <Route
+                            path="archives"
+                            element={
+                                <AuthRoute>
+                                    <ArchiveFeedback />
+                                </AuthRoute>
+                            }
+                        />
+                        <Route
                             path="entertainment"
                             element={
                                 <AuthRoute>
@@ -293,7 +311,7 @@ const App = () => {
                         backgroundColor: "#1f3646",
                         border: "none",
                         borderRadius: 25,
-                        bottom: 15,
+                        bottom: 35,
                         height: 50,
                         position: "fixed",
                         right: 40,

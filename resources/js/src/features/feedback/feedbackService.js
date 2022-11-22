@@ -14,6 +14,12 @@ const getFeedback = async (id) => {
     return res.data;
 };
 
+const archiveFeedback = async (id) => {
+    const res = await axios.post(API_URL + "/" + id);
+
+    return res.data;
+};
+
 const sendFeedback = async (data) => {
     const res = await axios.post(API_URL, data);
 
@@ -24,6 +30,7 @@ const feedbackService = {
     getFeedbacks,
     getFeedback,
     sendFeedback,
+    archiveFeedback,
 };
 
 export default feedbackService;
