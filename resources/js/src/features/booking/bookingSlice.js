@@ -77,7 +77,7 @@ export const scheduleBooking = createAsyncThunk(
     "booking/schedule",
     async (data, thunkAPI) => {
         try {
-            await bookingService.scheduleBooking(data);
+            return await bookingService.scheduleBooking(data);
         } catch (err) {
             if (err.response.status === 401) {
                 localStorage.removeItem("user");
@@ -204,8 +204,7 @@ export const authSlice = createSlice({
             .addCase(scheduleBooking.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.booking = action.payload;
-                state.bookings = [...state.bookings, action.payload];
+                state.bookings = [action.payload, ...state.bookings];
                 state.message = "Meeting had been schedule successfuly";
             })
             .addCase(scheduleBooking.rejected, (state, action) => {

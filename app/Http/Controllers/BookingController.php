@@ -57,7 +57,7 @@ class BookingController extends Controller
 
         //Mail::to('developertritek@gmail.com')->send(new NewBooking($user, $booking));
 
-        return $booking;
+        return response($booking);
     }
 
     /**

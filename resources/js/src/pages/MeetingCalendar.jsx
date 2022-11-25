@@ -77,7 +77,7 @@ const MeetingCalendar = () => {
                                 {bookings?.map((item) => (
                                     <a
                                         href="#"
-                                        key={item.id}
+                                        key={item?.id}
                                         type="button"
                                         className="list-group-item"
                                         data-bs-toggle="modal"
@@ -86,7 +86,7 @@ const MeetingCalendar = () => {
                                             handleOnMeetingDetailsClick(item)
                                         }
                                     >
-                                        {item.title}
+                                        {item?.title}
                                     </a>
                                 ))}
                             </div>

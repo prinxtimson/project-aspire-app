@@ -7,7 +7,7 @@ const BookMeetingDialog = ({ selectedDate, handleOnClose }) => {
     const closeBtnRef = useRef(null);
     const [formData, setFormData] = useState({
         title: "",
-        date: new Date().toLocaleDateString(),
+        date: new Date(),
         from: "",
         to: "",
         link: "",
@@ -23,7 +23,7 @@ const BookMeetingDialog = ({ selectedDate, handleOnClose }) => {
         if (selectedDate) {
             setFormData({
                 ...formData,
-                date: selectedDate.toLocaleDateString(),
+                date: selectedDate,
             });
         }
     }, [selectedDate]);
@@ -103,7 +103,7 @@ const BookMeetingDialog = ({ selectedDate, handleOnClose }) => {
                             <div className="form-floating col-12">
                                 <input
                                     className="form-control form-control-lg"
-                                    value={formData.date}
+                                    value={formData.date.toLocaleDateString()}
                                     placeholder="Meeting Date"
                                     id="floatingInput"
                                     name="date"
