@@ -30,12 +30,12 @@ const DashboardContainer = ({ children }) => {
 
     useEffect(() => {
         const notificationMenu = document.getElementById("notificationMenu");
-        notificationMenu.addEventListener("hidden.bs.dropdown", function (e) {
+        notificationMenu?.addEventListener("hidden.bs.dropdown", function (e) {
             dispatch(markNotification());
         });
 
         return () =>
-            notificationMenu.removeEventListener(
+            notificationMenu?.removeEventListener(
                 "hidden.bs.dropdown",
                 function (e) {
                     dispatch(markNotification());

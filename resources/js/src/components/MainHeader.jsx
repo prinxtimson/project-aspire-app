@@ -26,13 +26,13 @@ const MainHeader = () => {
     }, []);
 
     useEffect(() => {
-        const notificationMenu = document.getElementById("notificationMenu");
-        notificationMenu.addEventListener("hidden.bs.dropdown", function (e) {
+        const notificationMenu = document.getElementById("notificationMenu2");
+        notificationMenu?.addEventListener("hidden.bs.dropdown", function (e) {
             dispatch(markNotification());
         });
 
         return () =>
-            notificationMenu.removeEventListener(
+            notificationMenu?.removeEventListener(
                 "hidden.bs.dropdown",
                 function (e) {
                     dispatch(markNotification());
@@ -173,7 +173,7 @@ const MainHeader = () => {
                         </div>
                         <div
                             className="me-2 dropdown-center"
-                            id="notificationMenu"
+                            id="notificationMenu2"
                         >
                             <a
                                 className="d-none dropdown-toggle"
