@@ -11,6 +11,7 @@
         "php": "^7.1|^8.0",
         "google/apiclient": "^2.12",
         "guzzlehttp/guzzle": "^7.2",
+        "jrm2k6/cloudder": "^0.7.0",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",

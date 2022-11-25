@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Http\UploadedFile;
+use JD\Cloudder\Facades\Cloudder;
 use App\Notifications\AccountDelete;
 use App\Notifications\ProfileUpdated;
 use Illuminate\Support\Facades\Notification;
@@ -97,14 +97,11 @@ class AuthController extends Controller
         ]);
 
         if ($request->hasFile('avatar')) {
-            $user->clearMediaCollection('avatars');
-
-            $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
-    
-            $mediaUrl = $user->getFirstMediaUrl('avatars');
+            $cloudder = Cloudder::upload($request->file('avatar')->getRealPath(), "elintx-$user->id");
+            $uploadResult = $cloudder->getResult();
     
             $user->update([
-                'avatar' => $mediaUrl,
+                'avatar' => $uploadResult['url'],
             ]);
         }
 
