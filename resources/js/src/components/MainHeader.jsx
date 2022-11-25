@@ -115,7 +115,7 @@ const MainHeader = () => {
                                 {t("header.nav_link_3")}
                             </Link>
                         </li>
-                        {!isLoading && user && (
+                        {user && (
                             <li className="nav-item">
                                 <Link
                                     className="nav-link text-white fw-bold"
@@ -126,27 +126,22 @@ const MainHeader = () => {
                             </li>
                         )}
                     </ul>
-                    {isLoading
-                        ? null
-                        : !user && (
-                              <div className="d-grid gap-2 d-md-block col-md-3 col-sm-6 col-xs-12">
-                                  <Link
-                                      className="btn btn-light text-primary"
-                                      to="/register"
-                                  >
-                                      {t("header.nav_link_5")}
-                                  </Link>
-                                  <span className=" mx-2" />
-                                  <Link
-                                      className="btn btn-outline-light"
-                                      to="/login"
-                                  >
-                                      {t("header.nav_link_6")}
-                                  </Link>
-                              </div>
-                          )}
+                    {!user && (
+                        <div className="d-grid gap-2 d-md-block col-md-3 col-sm-6 col-xs-12">
+                            <Link
+                                className="btn btn-light text-primary"
+                                to="/register"
+                            >
+                                {t("header.nav_link_5")}
+                            </Link>
+                            <span className=" mx-2" />
+                            <Link className="btn btn-outline-light" to="/login">
+                                {t("header.nav_link_6")}
+                            </Link>
+                        </div>
+                    )}
                 </div>
-                {isLoading ? null : user ? (
+                {user ? (
                     <div className="flex-shrink-0 d-flex justify-content-end">
                         <div className="me-2 ">
                             <div className="input-group">
@@ -188,17 +183,17 @@ const MainHeader = () => {
                             <div className="position-relative me-2">
                                 <button
                                     type="button"
-                                    className="btn btn-lg"
+                                    className="btn"
                                     onClick={() => dropBellRef.current.click()}
                                 >
                                     <i
-                                        className="bi bi-bell-fill"
+                                        className="bi bi-bell-fill text-white"
                                         style={{ fontSize: 20 }}
                                     ></i>
 
                                     <span
                                         className="position-absolute  translate-middle badge rounded-pill bg-danger"
-                                        style={{ top: 10, left: 40 }}
+                                        style={{ top: 12, left: 38 }}
                                     >
                                         {notifications?.count || 0}
                                         <span className="visually-hidden">
@@ -415,7 +410,7 @@ const MainHeader = () => {
                                 {t("header.nav_link_3")}
                             </Link>
                         </li>
-                        {!isLoading && user && (
+                        {user && (
                             <li className="nav-item">
                                 <Link
                                     className="nav-link text-white fw-bold"
@@ -426,25 +421,20 @@ const MainHeader = () => {
                             </li>
                         )}
                     </ul>
-                    {isLoading
-                        ? null
-                        : !user && (
-                              <div className="d-grid gap-2 d-md-block col-md-3 col-sm-6 col-xs-12">
-                                  <Link
-                                      className="btn btn-light text-primary"
-                                      to="/register"
-                                  >
-                                      {t("header.nav_link_5")}
-                                  </Link>
-                                  <span className=" mx-2" />
-                                  <Link
-                                      className="btn btn-outline-light"
-                                      to="/login"
-                                  >
-                                      {t("header.nav_link_6")}
-                                  </Link>
-                              </div>
-                          )}
+                    {!user && (
+                        <div className="d-grid gap-2 d-md-block col-md-3 col-sm-6 col-xs-12">
+                            <Link
+                                className="btn btn-light text-primary"
+                                to="/register"
+                            >
+                                {t("header.nav_link_5")}
+                            </Link>
+                            <span className=" mx-2" />
+                            <Link className="btn btn-outline-light" to="/login">
+                                {t("header.nav_link_6")}
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </div>
         </nav>
