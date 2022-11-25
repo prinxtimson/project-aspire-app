@@ -71,6 +71,12 @@ const verifyCode = async (data) => {
     return res.data;
 };
 
+const markNotification = async () => {
+    const res = await axios.get(API_URL + "/mark-notification");
+
+    return res.data;
+};
+
 const resendCode = async () => {
     const res = await axios.get("/two-factor-auth/resend");
 
@@ -103,6 +109,7 @@ const authService = {
     verifyCode,
     resendCode,
     deleteAccount,
+    markNotification,
 };
 
 export default authService;

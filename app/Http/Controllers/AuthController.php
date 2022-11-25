@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\UploadedFile;
 use App\Notifications\AccountDelete;
+use App\Notifications\ProfileUpdated;
 use Illuminate\Support\Facades\Notification;
 
 class AuthController extends Controller
@@ -30,9 +31,15 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             auth()->user()->generate_code();
+            $notifications = auth()->user()->notifications;
+            $count = auth()->user()->unreadNotifications->count();
 
             $response = [
-                'user' => auth()->user()->load(['roles']),
+                'user' => auth()->user()->load(['roles', 'profile']),
+                'notifications' => [
+                    'data' => $notifications,
+                    'count' => $count
+                ],
             ];
 
             return $response;
@@ -44,9 +51,17 @@ class AuthController extends Controller
     }
 
     public function me() {
-        $user = auth()->user()->load(['roles']);
+        $user = auth()->user()->load(['roles', 'profile']);
+
+        $notifications = auth()->user()->notifications;
+        $count = auth()->user()->unreadNotifications->count();
+
         $response = [
             'user' => $user,
+            'notifications' => [
+                    'data' => $notifications,
+                    'count' => $count
+                ],
         ];
         return $response;
     }
@@ -95,8 +110,17 @@ class AuthController extends Controller
 
         $user->refresh()->load(['profile','roles']);
 
+        $user->notify(new ProfileUpdated($user));
+
+        $notifications = auth()->user()->notifications;
+        $count = auth()->user()->unreadNotifications->count();
+
         $response = [
             'user' => $user,
+            'notifications' => [
+                'data' => $notifications,
+                'count' => $count
+            ],
         ];
 
         return $response;
@@ -170,6 +194,22 @@ class AuthController extends Controller
         }
         
         return response('An error occur', 400);
+    }
+
+    public function markNotification()
+    {
+        $user = auth()->user();
+
+        $user->unreadNotifications->markAsRead();
+
+        $user->refresh();
+        
+        $response = [
+            'data' => $user->notifications,
+            'count' => $user->unreadNotifications->count(),
+        ];
+
+        return $response;
     }
 
     public function delete()

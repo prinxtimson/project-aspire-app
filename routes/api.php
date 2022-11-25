@@ -40,6 +40,7 @@ Route::get('analytics/bounce/{days}', [AnalysisController::class, 'bounce']);
 
 Route::group(['middleware' => ['auth:sanctum', '2fa']], function () {
     Route::get('/me', [AuthController::class, 'me']);
+    Route::get('/mark-notification', [AuthController::class, 'markNotification']);
     Route::delete('/delete-account', [AuthController::class, 'delete']);
     Route::put('/change-password', [AuthController::class, 'changePass']);
     Route::put('/update', [AuthController::class, 'update']);
@@ -69,6 +70,7 @@ Route::group(['middleware' => ['auth:sanctum', '2fa']], function () {
     Route::get('feedbacks/{id}', [FeedbackController::class, 'show']);
     Route::post('feedbacks/{id}/archive', [FeedbackController::class, 'archiveFeedback']);
     Route::post('feedbacks', [FeedbackController::class, 'store']);
+    Route::post('feedbacks/reply', [FeedbackController::class, 'replyFeedback']);
 
     Route::get('bookings', [BookingController::class, 'index']);
     Route::get('bookings/all', [BookingController::class, 'all']);

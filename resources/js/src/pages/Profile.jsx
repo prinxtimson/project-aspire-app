@@ -147,7 +147,7 @@ const Profile = () => {
                                 >
                                     <option value="">Select Status</option>
                                     <option value="break">Break</option>
-                                    <option value="comfort">Comfort</option>
+                                    <option value="available">Available</option>
                                     <option value="meeting">Meeting</option>
                                 </select>
 

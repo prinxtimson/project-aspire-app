@@ -1,4 +1,4 @@
-import { useMemo, useState, Suspense } from "react";
+import { useMemo, useState, Suspense, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store";
-import { getCurrentUser } from "./features/auth/authSlice";
+import { getCurrentUser, newNotification } from "./features/auth/authSlice";
 
 import { FaRobot } from "react-icons/fa";
 import Chatbot from "react-chatbot-kit";
@@ -56,6 +56,7 @@ import CurrentUsers from "./pages/CurrentUsers";
 import Fashion from "./pages/Fashion";
 import FeedbackTable from "./pages/FeedbackTable";
 import ArchiveFeedback from "./pages/ArchiveFeedback";
+import MeetingCalendar from "./pages/MeetingCalendar";
 
 ReactGA.initialize("UA-209541600-1");
 
@@ -67,6 +68,18 @@ const App = () => {
 
     const dispatch = useDispatch();
     const { user, isLoading } = useSelector((state) => state.auth);
+
+    useEffect(() => {
+        if (user) {
+            window.Echo.private(`App.Models.User.${user?.id}`).notification(
+                (notification) => {
+                    console.log(notification);
+
+                    dispatch(newNotification(notification));
+                }
+            );
+        }
+    }, [user]);
 
     useMemo(() => {
         dispatch(getCurrentUser());
@@ -187,6 +200,14 @@ const App = () => {
                             element={
                                 <AuthRoute>
                                     <ProductsSalesChart />
+                                </AuthRoute>
+                            }
+                        />
+                        <Route
+                            path="meeting-calendar"
+                            element={
+                                <AuthRoute>
+                                    <MeetingCalendar />
                                 </AuthRoute>
                             }
                         />

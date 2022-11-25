@@ -2,20 +2,23 @@ import { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import MainFooter from "./MainFooter";
-import { logout, reset } from "../features/auth/authSlice";
+import { logout, markNotification, reset } from "../features/auth/authSlice";
 import { useTranslation } from "react-i18next";
+import searchData from "../utils/searchData";
+import SearchDialog from "./SearchDialog";
+import Moment from "react-moment";
 
 const DashboardContainer = ({ children }) => {
     const { t } = useTranslation(["dashboard"]);
     const { routeName } = useParams();
     const dropBtnRef = useRef(null);
-    const dropdownRef = useRef(null);
     const dropBellRef = useRef(null);
+    const [searchText, setSearchText] = useState("");
     const [searchResult, setSearchResult] = useState([]);
     const [isActive, setIsActive] = useState(false);
 
     const dispatch = useDispatch();
-    const { user, isLoading, isError, message } = useSelector(
+    const { user, notifications, isLoading, isError, message } = useSelector(
         (state) => state.auth
     );
 
@@ -25,10 +28,45 @@ const DashboardContainer = ({ children }) => {
         }, 3000);
     }, [isError]);
 
+    useEffect(() => {
+        const notificationMenu = document.getElementById("notificationMenu");
+        notificationMenu.addEventListener("hidden.bs.dropdown", function (e) {
+            dispatch(markNotification());
+        });
+
+        return () =>
+            notificationMenu.removeEventListener(
+                "hidden.bs.dropdown",
+                function (e) {
+                    dispatch(markNotification());
+                }
+            );
+    }, []);
+
+    const handleSearch = () => {
+        if (searchText) {
+            let _filteredSearch = searchData.filter(
+                (data) =>
+                    data.content
+                        .toLowerCase()
+                        .includes(searchText.toLowerCase()) ||
+                    data.name.toLowerCase().includes(searchText.toLowerCase())
+            );
+
+            setSearchResult(_filteredSearch);
+        }
+    };
+
+    const handleOnClose = () => setSearchResult([]);
+
     const handleToggle = () => setIsActive(!isActive);
 
     return (
         <div className="flex-grow-1 d-flex flex-column">
+            <SearchDialog
+                searchResult={searchResult}
+                handleOnClose={handleOnClose}
+            />
             <div
                 className="position-fixed"
                 style={{ zIndex: 10, top: 60, right: 20 }}
@@ -161,6 +199,19 @@ const DashboardContainer = ({ children }) => {
                                         Archives
                                     </Link>
                                 </li>
+                                <li>
+                                    <Link
+                                        to="/dashboard/meeting-calendar"
+                                        className={`nav-link fw-bold ${
+                                            window.location.pathname ===
+                                            "/dashboard/meeting-calendar"
+                                                ? "active-tab bg-white"
+                                                : "text-white"
+                                        }`}
+                                    >
+                                        Schedule Meetings
+                                    </Link>
+                                </li>
                                 {/* <li>
                                     <Link
                                         to="/dashboard/users"
@@ -284,51 +335,32 @@ const DashboardContainer = ({ children }) => {
                                         data-bs-auto-close="false"
                                         data-bs-display="static"
                                     ></a>
-                                    <input
-                                        className="form-control"
-                                        type="search"
-                                        placeholder="Search"
-                                        aria-label="Search"
-                                        onFocus={() =>
-                                            dropBtnRef.current.click()
-                                        }
-                                        onBlur={() =>
-                                            dropBtnRef.current.click()
-                                        }
-                                    />
-                                    <ul
-                                        className="dropdown-menu"
-                                        aria-labelledby="dropdownMenuButton1"
-                                        style={{ minWidth: 320 }}
-                                    >
-                                        {searchResult.length === 0 ? (
-                                            <li>
-                                                <p className="px-3">
-                                                    {t("container.no_result")}
-                                                </p>
-                                            </li>
-                                        ) : (
-                                            searchResult.map(
-                                                (result, index) => (
-                                                    <li
-                                                        key={index}
-                                                        className=""
-                                                    >
-                                                        <a
-                                                            className="dropdown-item"
-                                                            href="#"
-                                                        >
-                                                            {t(
-                                                                "container.action"
-                                                            )}
-                                                        </a>
-                                                    </li>
-                                                )
-                                            )
-                                        )}
-                                    </ul>
+                                    <div className="input-group">
+                                        <input
+                                            className="form-control"
+                                            type="search"
+                                            placeholder="Search"
+                                            aria-label="Search"
+                                            value={searchText}
+                                            onChange={(e) =>
+                                                setSearchText(e.target.value)
+                                            }
+                                        />
+                                        <button
+                                            className="btn btn-outline-secondary"
+                                            type="submit"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#searchModal"
+                                            onClick={handleSearch}
+                                        >
+                                            <i className="bi bi-search"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="me-2 dropdown-center">
+                                <div
+                                    className="me-2 dropdown-center"
+                                    id="notificationMenu"
+                                >
                                     <a
                                         className="d-none dropdown-toggle"
                                         type="button"
@@ -356,7 +388,7 @@ const DashboardContainer = ({ children }) => {
                                                 className="position-absolute  translate-middle badge rounded-pill bg-danger"
                                                 style={{ top: 10, left: 40 }}
                                             >
-                                                0
+                                                {notifications?.count || 0}
                                                 <span className="visually-hidden">
                                                     unread messages
                                                 </span>
@@ -364,15 +396,94 @@ const DashboardContainer = ({ children }) => {
                                         </button>
                                     </div>
                                     <ul
-                                        className="dropdown-menu dropdown-menu-end"
+                                        className="dropdown-menu dropdown-menu-end overflow-auto"
                                         aria-labelledby="dropdownMenuNotifcation"
-                                        style={{ minWidth: 320 }}
+                                        style={{
+                                            minWidth: 320,
+                                            maxHeight: 400,
+                                        }}
                                     >
-                                        <li>
-                                            <p className="px-3">
-                                                No new notification
-                                            </p>
-                                        </li>
+                                        {notifications?.data.length > 0 ? (
+                                            notifications.data.map((item) =>
+                                                item.type ==
+                                                "App\\Notifications\\ProfileUpdated" ? (
+                                                    <li
+                                                        key={item.id}
+                                                        className="list-group"
+                                                    >
+                                                        <div
+                                                            className={`list-group-item ${
+                                                                !item.read_at &&
+                                                                "list-group-item-primary"
+                                                            }`}
+                                                        >
+                                                            <div className="d-flex w-100 justify-content-between">
+                                                                <h5 className="mb-1">
+                                                                    Profile
+                                                                    update
+                                                                </h5>
+                                                                <small>
+                                                                    <Moment
+                                                                        fromNow
+                                                                    >
+                                                                        {
+                                                                            item.created_at
+                                                                        }
+                                                                    </Moment>
+                                                                </small>
+                                                            </div>
+
+                                                            <p className="">
+                                                                Profile was
+                                                                updated
+                                                            </p>
+                                                        </div>
+                                                    </li>
+                                                ) : item.type ==
+                                                  "App\\Notifications\\ReportShare" ? (
+                                                    <li
+                                                        key={item.id}
+                                                        className="list-group"
+                                                    >
+                                                        <div
+                                                            className={`list-group-item ${
+                                                                !item.read_at &&
+                                                                "list-group-item-primary"
+                                                            }`}
+                                                        >
+                                                            <div className="d-flex w-100 justify-content-between">
+                                                                <h5 className="mb-1">
+                                                                    Report Share
+                                                                </h5>
+                                                                <small>
+                                                                    <Moment
+                                                                        fromNow
+                                                                    >
+                                                                        {
+                                                                            item.created_at
+                                                                        }
+                                                                    </Moment>
+                                                                </small>
+                                                            </div>
+
+                                                            <p className="">
+                                                                Report had been
+                                                                shared with{" "}
+                                                                {item.data
+                                                                    ?.email ||
+                                                                    item.email}
+                                                            </p>
+                                                        </div>
+                                                    </li>
+                                                ) : null
+                                            )
+                                        ) : (
+                                            <li>
+                                                <p className="px-3">
+                                                    No new notification
+                                                </p>
+                                            </li>
+                                        )}
                                     </ul>
                                 </div>
 
@@ -453,10 +564,12 @@ const DashboardContainer = ({ children }) => {
                     </nav>
                     <div className="mx-5 pt-2 d-flex justify-content-end">
                         <a
-                            href="mailto:"
+                            href="https://login.live.com/"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="mx-2"
+                            data-bs-toggle="tooltip"
+                            data-bs-title="Mail"
                         >
                             <i
                                 className="bi bi-envelope"
@@ -468,9 +581,13 @@ const DashboardContainer = ({ children }) => {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="mx-2"
+                            data-bs-toggle="tooltip"
+                            data-bs-title="Slack"
                         >
                             <i
                                 className="bi bi-slack"
+                                data-bs-toggle="tooltip"
+                                data-bs-title="Slack"
                                 style={{ fontSize: 30 }}
                             ></i>
                         </a>

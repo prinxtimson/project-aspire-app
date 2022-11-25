@@ -3,7 +3,7 @@ import { clearUser } from "../auth/authSlice";
 import bookingService from "./bookingService";
 
 const initialState = {
-    bookings: null,
+    bookings: [],
     booking: null,
     isError: false,
     isSuccess: false,
@@ -205,7 +205,8 @@ export const authSlice = createSlice({
                 state.isLoading = false;
                 state.isSuccess = true;
                 state.booking = action.payload;
-                state.message = "Booking had been schedule successfuly";
+                state.bookings = [...state.bookings, action.payload];
+                state.message = "Meeting had been schedule successfuly";
             })
             .addCase(scheduleBooking.rejected, (state, action) => {
                 state.isLoading = false;
@@ -219,7 +220,7 @@ export const authSlice = createSlice({
                 state.isLoading = false;
                 state.isSuccess = true;
                 state.booking = action.payload;
-                state.message = "Booking had been reschedule";
+                state.message = "Meeting had been reschedule";
             })
             .addCase(rescheduleBooking.rejected, (state, action) => {
                 state.isLoading = false;

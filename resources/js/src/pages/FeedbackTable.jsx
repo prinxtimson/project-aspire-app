@@ -5,9 +5,12 @@ import { useTranslation } from "react-i18next";
 import DashboardContainer from "../components/DashboardContainer";
 import { getFeedbacks } from "../features/feedback/feedbackSlice";
 import axios from "axios";
+import FeedbackDialog from "../components/FeedbackDialog";
 
 const FeedbackTable = () => {
     const { t } = useTranslation(["dashboard"]);
+    const [selectedFeedback, setSelectedFeedback] = useState(null);
+
     const [data, setData] = useState([]);
 
     const dispatch = useDispatch();
@@ -25,6 +28,8 @@ const FeedbackTable = () => {
             setData(feedbacks?.filter((item) => item.status != "archive"));
         }
     }, [feedbacks]);
+
+    const handleOnClose = () => setSelectedFeedback(null);
 
     const getArchiveFeedbacks = () => {
         setData(feedbacks?.filter((item) => item.status === "archive"));
@@ -50,6 +55,10 @@ const FeedbackTable = () => {
     return (
         <DashboardContainer>
             <div className="container py-5">
+                <FeedbackDialog
+                    feedback={selectedFeedback}
+                    handleOnClose={handleOnClose}
+                />
                 {isLoading ? (
                     <p className="py-5">Feedbacks loading........</p>
                 ) : (
@@ -97,39 +106,36 @@ const FeedbackTable = () => {
                                                     </p>
                                                 </td>
                                                 <td>
-                                                    {/*
-                                                <div className="d-flex">
-                                                    <div className="">
+                                                    <div className="d-grid gap-2 d-md-flex">
                                                         <button
-                                                            className="btn"
+                                                            className="btn btn-primary me-md-2"
                                                             type="button"
-                                                        ></button>
-                                                    </div>
-                                                    <div className="flex-shrink-0 mx-2">
-                                                        <button
-                                                            className="btn btn-danger btn-sm text-white"
-                                                            type="button"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#feedbackModal"
+                                                            onClick={() =>
+                                                                setSelectedFeedback(
+                                                                    val
+                                                                )
+                                                            }
                                                         >
-                                                            Delete
+                                                            Respond
+                                                        </button>
+                                                        <button
+                                                            className="btn btn-warning btn-sm text-white"
+                                                            type="button"
+                                                            onClick={() =>
+                                                                handleArchiveFeedback(
+                                                                    val.id
+                                                                )
+                                                            }
+                                                            disabled={
+                                                                val.status ===
+                                                                "archive"
+                                                            }
+                                                        >
+                                                            Archive
                                                         </button>
                                                     </div>
-                                                </div>
-                                                */}
-                                                    <button
-                                                        className="btn btn-warning btn-sm text-white"
-                                                        type="button"
-                                                        onClick={() =>
-                                                            handleArchiveFeedback(
-                                                                val.id
-                                                            )
-                                                        }
-                                                        disabled={
-                                                            val.status ===
-                                                            "archive"
-                                                        }
-                                                    >
-                                                        Archive
-                                                    </button>
                                                 </td>
                                             </tr>
                                         ))}

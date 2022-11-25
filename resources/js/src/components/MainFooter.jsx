@@ -25,7 +25,7 @@ const LANGUAGES = [
 
 const cookies = new Cookies();
 
-const MainFooter = ({ dark }) => {
+const MainFooter = ({ dark = false }) => {
     const { t } = useTranslation(["dashboard"]);
     const currentLangCode = cookies.get("i18next") || "en";
     const currentLang = LANGUAGES.find((lang) => lang.code === currentLangCode);

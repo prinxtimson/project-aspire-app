@@ -4,8 +4,7 @@ const searchData = [
         name: "Home",
         type: "page",
         link: "/",
-        content:
-            "1-on-1 Career Mentorship Master your craft with leading mentors at your side. Grow with every online mentoring session and take the next step in your career. All on your terms, for a flat monthly price.",
+        content: "Insights . Get solutions tailored to your business options",
     },
     {
         id: 2,
@@ -13,35 +12,36 @@ const searchData = [
         type: "page",
         link: "/about-us",
         content:
-            "Tritek has a plethora of highly skilled mentors and trainers, equipped with knowledge, skills and experience to train, mentor and coach all candidates towards achieving their goals. We believe in giving you the essential required mentoring support, while also ensuring you gain the practical experience in Project Management and Business Analysis. We provide you with the relevant information, tools, resources, administration of assessment, self-assessment tools, career guidance, and interview preparation needed to secure your dream job and more.",
+            "Elint-X is focused on ensuring that users are provided with data trends that are consistent with the current AI market trends. Elint-X serves customers around the world and focuses on providing rich data that can be used by marketers, researchers, business start-ups and individuals to improve their decision making . Elint-X provides access to vital resources to enable a global community aggregate solution to real life challenges . Our mission is to ensure we create a platform that provides a superlative user experience for analysing real-world data empowering individuals to make cutting edge decisions",
     },
     {
         id: 3,
-        name: "Bookings",
+        name: "Dashboard",
         type: "page",
-        link: "/bookings",
-        content:
-            "Reschedule Bookings Cancel Bookings Neither attended nor missed Attended Missed",
+        link: "/dashboard",
+        content: "Products Sales . Products Trend . Current Users",
     },
     {
         id: 4,
-        name: "Cancel Booking",
+        name: "Report",
         type: "page",
-        link: "/bookings/cancel",
-        content: "Cancel Booking",
+        link: "/dashboard/report",
+        content:
+            "Current Users . Visitors to Website . Bounce Rate . User Location . Duration of session per day . Page visited by users",
     },
     {
         id: 5,
         name: "Contact Us",
         type: "page",
         link: "/contact-us",
-        content: "Contact Us",
+        content:
+            "Contact Us . We will like to hear from you . Unite 1i,75 Millmarsh Lane, London. EN3 7PU . info@mytritek.co.uk . www.mytritek.co.uk",
     },
     {
         id: 6,
         name: "Feedbacks",
         type: "page",
-        link: "/feedbacks",
+        link: "/dashboard/feedbacks",
         content: "Feedbacks",
     },
     {
@@ -53,17 +53,17 @@ const searchData = [
     },
     {
         id: 8,
-        name: "Reschedule Booking",
+        name: "Archives",
         type: "page",
-        link: "/bookings/reschedule",
-        content: "Reschedule Booking",
+        link: "/dashboard/archives",
+        content: "Archive Feedbacks",
     },
     {
         id: 9,
-        name: "Book a session",
+        name: "Meetings",
         type: "page",
-        link: "/bookings/schedule",
-        content: "Book a session Request Booking",
+        link: "/dashboard/schedule",
+        content: "Calendar . Meeting . Booking",
     },
     {
         id: 10,
@@ -94,6 +94,29 @@ const searchData = [
         link: "/register",
         content:
             "Already have an account, click here to login? Set up an Account",
+    },
+    {
+        id: 14,
+        name: "Solutions",
+        type: "page",
+        link: "/solution",
+        content:
+            "Elint-X . From real time raw data to up-to date reports, Elint-X platform is your one-stop shop for all your data and trend analysis enquiries leaving you time to focus on your business. Insights gained from this platform will give you the strategies needed to leverage data to make informed business decisions . Who Has The Most to Gain from Elint-X . Start-up businesses, Existing businesses, Academic and Market Researchers, Developers . Use Driven Methods to Apply Insights . Get the right tools to capture, evaluate real time data to gain the insights needed to make informed business decisions to match your business options . Branding and Rebranding . Competitive Analysis . Real time data reporting delivers accurate trend analysis helping you to leverage the edge you need over your business competitors . What It does for You . With an easy-to use intuitive dashboard with infographics, download options and flexible API, you can process, analyse data and share reports in a snap. Elint-X also offers built in technical support that secures your data while giving you the control you need",
+    },
+    {
+        id: 15,
+        name: "Subscription",
+        type: "page",
+        link: "/subscribe",
+        content:
+            "Subscription Plans . Silver . Gold . Platinum . Food . Entertainment . Health . Sports . Fashion",
+    },
+    {
+        id: 14,
+        name: "Reset Password",
+        type: "page",
+        link: "",
+        content: "Reset Password",
     },
     // {
     //     id: 14,

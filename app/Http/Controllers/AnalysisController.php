@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use Analytics;
 use App\Exports\ReportsExport;
 use App\Mail\AnalyticsReport;
+use App\Models\User;
+use App\Notifications\ReportShare;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Excel;
 use Spatie\Analytics\Period;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 class AnalysisController extends Controller
 {
@@ -169,6 +172,10 @@ class AnalysisController extends Controller
         if($result){
             try{
                 Mail::to($email)->send(new AnalyticsReport($filename));
+
+                $users = User::role('admin')->get();
+
+                Notification::send($users, new ReportShare($email));
 
                 return ['msg' => 'Email had been sent'];
             }

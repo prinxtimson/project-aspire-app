@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\FeedbackReply;
 use App\Models\Feedback;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class FeedbackController extends Controller
 {
@@ -76,6 +78,25 @@ class FeedbackController extends Controller
         ]);
 
         return $feedback->refresh()->load('user');
+    }
+
+    public function replyFeedback(Request $request)
+    {
+        try {
+            $fields = $request->validate([
+                'name' => 'required|string',
+                'email' => 'required|string',
+                'message' => 'required|string'
+            ]);
+    
+            Mail::to($fields['email'])->send(new FeedbackReply($fields['name'], $fields['message']));
+
+            return response(['msg' => "Feedback reply mail had been sent"]);
+
+        } catch (\Exception $e) {
+            return response(['msg' => $e->getMessage()], 400);
+        }
+
     }
 
     /**

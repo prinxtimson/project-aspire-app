@@ -125,4 +125,5 @@ const TYPES = [
     { name: "Excel", value: "xlsx" },
     { name: "CSV", value: "csv" },
     { name: "PDF", value: "pdf" },
+    { name: "HTML", value: "html" },
 ];

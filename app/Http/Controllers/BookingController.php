@@ -48,11 +48,10 @@ class BookingController extends Controller
             'description' => 'string',
             'date' => 'required|date',
             'meeting_link' => 'string',
-
+            'time' => 'required|string'
         ]);
 
         $fields['booking_number'] = 'BKG' . time();
-        $fields['time'] = '14:30';
 
         $booking = $user->bookings()->create($fields);
 

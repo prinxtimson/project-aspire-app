@@ -3,7 +3,7 @@ import axios from "axios";
 const API_URL = "/api/bookings";
 
 const getBookings = async () => {
-    const res = await axios.get(API_URL);
+    const res = await axios.get(API_URL + "/all");
 
     return res.data;
 };

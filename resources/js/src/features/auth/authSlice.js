@@ -8,6 +8,7 @@ const tfa = localStorage.getItem("elintx-2fa");
 const initialState = {
     user: user === "undefined" ? null : JSON.parse(user),
     tfa: tfa == "undefined" ? null : tfa,
+    notifications: null,
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -185,6 +186,29 @@ export const getCurrentUser = createAsyncThunk("auth/me", async (thunkAPI) => {
     }
 });
 
+export const markNotification = createAsyncThunk(
+    "auth/mark-notification",
+    async (thunkAPI) => {
+        try {
+            return await authService.markNotification();
+        } catch (err) {
+            if (err.response.status === 401) {
+                localStorage.removeItem("elintx-user");
+                localStorage.removeItem("elintx-2fa");
+                thunkAPI.dispatch(clearUser());
+            }
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
+
 export const deleteAccount = createAsyncThunk(
     "auth/delete-account",
     async (thunkAPI) => {
@@ -248,6 +272,18 @@ export const authSlice = createSlice({
         clearUser: (state) => {
             state.user = null;
             state.tfa = null;
+            state.notifications = null;
+        },
+        newNotification: (state, action) => {
+            if (
+                state.notifications.data.filter(
+                    (val) => val.id === action.payload.id
+                ).length === 0
+            ) {
+                let data = [action.payload, ...state.notifications.data];
+                let count = state.notifications.count + 1;
+                state.notifications = { data, count };
+            }
         },
     },
     extraReducers: (builder) => {
@@ -273,6 +309,7 @@ export const authSlice = createSlice({
                 state.isSuccess = true;
                 state.message = "Profile update successful";
                 state.user = action.payload.user;
+                state.notifications = action.payload.notifications;
             })
             .addCase(updateUser.rejected, (state, action) => {
                 state.isLoading = false;
@@ -326,11 +363,15 @@ export const authSlice = createSlice({
                 state.message = action.payload;
                 state.user = null;
             })
+            .addCase(markNotification.fulfilled, (state, action) => {
+                state.notifications = action.payload;
+            })
             .addCase(getCurrentUser.pending, (state) => {
                 state.isLoading = true;
             })
             .addCase(getCurrentUser.fulfilled, (state, action) => {
                 state.isLoading = false;
+                state.notifications = action.payload.notifications;
                 state.user = action.payload.user;
             })
             .addCase(getCurrentUser.rejected, (state, action) => {
@@ -393,5 +434,5 @@ export const authSlice = createSlice({
     },
 });
 
-export const { reset, clearUser } = authSlice.actions;
+export const { reset, clearUser, newNotification } = authSlice.actions;
 export default authSlice.reducer;
