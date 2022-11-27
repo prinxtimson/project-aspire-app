@@ -11,6 +11,7 @@ import { getCurrentUser, login, reset } from "../features/auth/authSlice";
 const Login = () => {
     const { t } = useTranslation(["login"]);
     const [checkBox, setCheckBox] = useState(false);
+    const [visible, setVisible] = useState(false);
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -102,21 +103,39 @@ const Login = () => {
                                             {t("email")}
                                         </label>
                                     </div>
-                                    <div className="form-floating col-12">
-                                        <input
-                                            type="password"
-                                            className="form-control form-control-lg"
-                                            value={password}
-                                            placeholder="Password"
-                                            id="floatingInput"
-                                            name="password"
-                                            onChange={handleOnChange}
-                                            required
-                                        />
-                                        <label htmlFor="floatingInput">
-                                            {t("password")}
-                                        </label>
+                                    <div className="input-group col-12">
+                                        <div className="form-floating ">
+                                            <input
+                                                type={
+                                                    visible
+                                                        ? "text"
+                                                        : "password"
+                                                }
+                                                className="form-control form-control-lg"
+                                                value={password}
+                                                placeholder="Password"
+                                                id="floatingInput"
+                                                name="password"
+                                                onChange={handleOnChange}
+                                                required
+                                            />
+                                            <label htmlFor="floatingInput">
+                                                {t("password")}
+                                            </label>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            className="btn btn-outline-secondary"
+                                            onClick={() => setVisible(!visible)}
+                                        >
+                                            {visible ? (
+                                                <i className="fa fa-eye-slash"></i>
+                                            ) : (
+                                                <i className="fa fa-eye"></i>
+                                            )}
+                                        </button>
                                     </div>
+
                                     <div className="my-1 d-flex justify-content-between">
                                         <div className="">
                                             <div className="form-check">

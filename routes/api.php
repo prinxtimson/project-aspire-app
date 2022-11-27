@@ -69,6 +69,7 @@ Route::group(['middleware' => ['auth:sanctum', '2fa']], function () {
     Route::get('feedbacks', [FeedbackController::class, 'index']);
     Route::get('feedbacks/{id}', [FeedbackController::class, 'show']);
     Route::post('feedbacks/{id}/archive', [FeedbackController::class, 'archiveFeedback']);
+    Route::post('feedbacks/{id}/restore', [FeedbackController::class, 'unarchiveFeedback']);
     Route::post('feedbacks', [FeedbackController::class, 'store']);
     Route::post('feedbacks/reply', [FeedbackController::class, 'replyFeedback']);
 

@@ -80,6 +80,17 @@ class FeedbackController extends Controller
         return $feedback->refresh()->load('user');
     }
 
+    public function unarchiveFeedback($id)
+    {
+        $feedback = Feedback::find($id);
+
+        $feedback->update([
+            'status' => 'approved'
+        ]);
+
+        return $feedback->refresh()->load('user');
+    }
+
     public function replyFeedback(Request $request)
     {
         try {

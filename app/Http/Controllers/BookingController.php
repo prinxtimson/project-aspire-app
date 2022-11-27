@@ -46,7 +46,7 @@ class BookingController extends Controller
         $fields = $request->validate([
             'title' => 'required|string',
             'description' => 'string',
-            'date' => 'required|date',
+            'date' => 'required',
             'meeting_link' => 'string',
             'time' => 'required|string'
         ]);

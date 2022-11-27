@@ -1,13 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import moment from "moment";
 import { reset, scheduleBooking } from "../features/booking/bookingSlice";
 
 const BookMeetingDialog = ({ selectedDate, handleOnClose }) => {
     const closeBtnRef = useRef(null);
     const [formData, setFormData] = useState({
         title: "",
-        date: new Date(),
+        date: "",
         from: "",
         to: "",
         link: "",
@@ -23,7 +24,7 @@ const BookMeetingDialog = ({ selectedDate, handleOnClose }) => {
         if (selectedDate) {
             setFormData({
                 ...formData,
-                date: selectedDate,
+                date: moment(selectedDate).toString(),
             });
         }
     }, [selectedDate]);
@@ -58,6 +59,18 @@ const BookMeetingDialog = ({ selectedDate, handleOnClose }) => {
     const handleOnChange = (e) =>
         setFormData({ ...formData, [e.target.name]: e.target.value });
 
+    const onClose = () => {
+        handleOnClose();
+        setFormData({
+            title: "",
+            date: "",
+            from: "",
+            to: "",
+            link: "",
+            description: "",
+        });
+    };
+
     return (
         <div
             className="modal fade"
@@ -65,7 +78,6 @@ const BookMeetingDialog = ({ selectedDate, handleOnClose }) => {
             tabIndex="-1"
             aria-labelledby="meetingModalLabel"
             aria-hidden="true"
-            onBlur={handleOnClose}
         >
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
@@ -78,7 +90,7 @@ const BookMeetingDialog = ({ selectedDate, handleOnClose }) => {
                             className="btn-close"
                             data-bs-dismiss="modal"
                             aria-label="Close"
-                            onClick={handleOnClose}
+                            onClick={onClose}
                         ></button>
                     </div>
                     <div className="modal-body">
@@ -103,7 +115,7 @@ const BookMeetingDialog = ({ selectedDate, handleOnClose }) => {
                             <div className="form-floating col-12">
                                 <input
                                     className="form-control form-control-lg"
-                                    value={formData.date.toLocaleDateString()}
+                                    value={moment(formData.date).format("ll")}
                                     placeholder="Meeting Date"
                                     id="floatingInput"
                                     name="date"
@@ -198,7 +210,7 @@ const BookMeetingDialog = ({ selectedDate, handleOnClose }) => {
                                     ref={closeBtnRef}
                                     className="btn btn-secondary btn-lg"
                                     data-bs-dismiss="modal"
-                                    onClick={handleOnClose}
+                                    onClick={onClose}
                                 >
                                     Close
                                 </button>

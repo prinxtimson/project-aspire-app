@@ -11,6 +11,8 @@ const ResetPassword = () => {
     const { t } = useTranslation(["reset-password"]);
     const { token } = useParams();
     const search = new URLSearchParams(useLocation().search);
+    const [visible, setVisible] = useState(false);
+    const [confirmPassVisible, setConfirmPassVisible] = useState(false);
     const [formData, setFormData] = useState({
         token,
         email: search.get("email"),
@@ -76,36 +78,72 @@ const ResetPassword = () => {
                             onSubmit={handleOnSubmit}
                             className="form row g-3"
                         >
-                            <div className="form-floating col-12">
-                                <input
-                                    type="password"
-                                    className="form-control form-control-lg"
-                                    value={password}
-                                    placeholder="Password"
-                                    id="floatingInput"
-                                    name="password"
-                                    onChange={handleOnChange}
-                                    required
-                                />
-                                <label htmlFor="floatingInput">
-                                    {t("password")}
-                                </label>
+                            <div className="input-group col-12">
+                                <div className="form-floating ">
+                                    <input
+                                        type={visible ? "text" : "password"}
+                                        className="form-control form-control-lg"
+                                        value={password}
+                                        placeholder="Password"
+                                        id="floatingInput"
+                                        name="password"
+                                        onChange={handleOnChange}
+                                        required
+                                    />
+                                    <label htmlFor="floatingInput">
+                                        {t("password")}
+                                    </label>
+                                </div>
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-secondary"
+                                    onClick={() => setVisible(!visible)}
+                                >
+                                    {visible ? (
+                                        <i className="fa fa-eye-slash"></i>
+                                    ) : (
+                                        <i className="fa fa-eye"></i>
+                                    )}
+                                </button>
                             </div>
-                            <div className="form-floating col-12">
-                                <input
-                                    type="password"
-                                    className="form-control form-control-lg"
-                                    value={password_confirmation}
-                                    placeholder="Confirm password"
-                                    id="floatingInput"
-                                    name="password_confirmation"
-                                    onChange={handleOnChange}
-                                    required
-                                />
-                                <label htmlFor="floatingInput">
-                                    {t("confirm_password")}
-                                </label>
+
+                            <div className="input-group col-12">
+                                <div className="form-floating ">
+                                    <input
+                                        type={
+                                            confirmPassVisible
+                                                ? "text"
+                                                : "password"
+                                        }
+                                        className="form-control form-control-lg"
+                                        value={password_confirmation}
+                                        placeholder="Confirm password"
+                                        id="floatingInput"
+                                        name="password_confirmation"
+                                        onChange={handleOnChange}
+                                        required
+                                    />
+                                    <label htmlFor="floatingInput">
+                                        {t("confirm_password")}
+                                    </label>
+                                </div>
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-secondary"
+                                    onClick={() =>
+                                        setConfirmPassVisible(
+                                            !confirmPassVisible
+                                        )
+                                    }
+                                >
+                                    {confirmPassVisible ? (
+                                        <i className="fa fa-eye-slash"></i>
+                                    ) : (
+                                        <i className="fa fa-eye"></i>
+                                    )}
+                                </button>
                             </div>
+
                             <div className="d-grid gap-2 col-12 mx-auto">
                                 <button
                                     className={`btn btn-${

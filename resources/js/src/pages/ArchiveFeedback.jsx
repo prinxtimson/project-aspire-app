@@ -26,14 +26,11 @@ const ArchiveFeedback = () => {
         }
     }, [feedbacks]);
 
-    const handleArchiveFeedback = (id) => {
+    const handleRestoreFeedback = (id) => {
         axios
-            .post(`/api/feedbacks/${id}/archive`)
+            .post(`/api/feedbacks/${id}/restore`)
             .then((res) => {
-                const index = feedbacks.findIndex((item) => item.id === id);
-                let _feedbacks = feedbacks;
-                _feedbacks = _feedbacks.splice(index, 1, res.data);
-                setData(_feedbacks);
+                setData(data.filter((item) => item.id != id));
             })
             .catch((e) => console.log(e));
     };
@@ -61,7 +58,7 @@ const ArchiveFeedback = () => {
                                         <th scope="col">Name</th>
                                         <th scope="col">Email</th>
                                         <th scope="col">Feedback</th>
-                                        <th scope="col">Status</th>
+                                        <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -88,42 +85,21 @@ const ArchiveFeedback = () => {
                                                     </p>
                                                 </td>
                                                 <td>
-                                                    <p className="mb-0">
-                                                        Archived
-                                                    </p>
-                                                    {/*
-                                                <div className="d-flex">
-                                                    <div className="">
-                                                        <button
-                                                            className="btn"
-                                                            type="button"
-                                                        ></button>
-                                                    </div>
-                                                    <div className="flex-shrink-0 mx-2">
-                                                        <button
-                                                            className="btn btn-danger btn-sm text-white"
-                                                            type="button"
-                                                        >
-                                                            Delete
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                */}
-                                                    {/* <button
-                                                        className="btn btn-warning btn-sm text-white"
+                                                    <button
+                                                        className="btn btn-success btn-sm"
                                                         type="button"
                                                         onClick={() =>
-                                                            handleArchiveFeedback(
+                                                            handleRestoreFeedback(
                                                                 val.id
                                                             )
                                                         }
                                                         disabled={
                                                             val.status ===
-                                                            "archive"
+                                                            "approve"
                                                         }
                                                     >
-                                                        Archive
-                                                    </button> */}
+                                                        Restore
+                                                    </button>
                                                 </td>
                                             </tr>
                                         ))}

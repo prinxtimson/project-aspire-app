@@ -11,14 +11,14 @@ const MeetingCalendar = () => {
     const bookMeetingBtnRef = useRef(null);
     const [selectedMeeting, setSelectedMeeting] = useState({});
     const [value, onChange] = useState(new Date());
-    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState(null);
 
     const dispatch = useDispatch();
     const { bookings, isLoading, isSuccess, isError, message } = useSelector(
         (state) => state.booking
     );
 
-    const handleOnClose = () => setSelectedDate(new Date());
+    const handleOnClose = () => setSelectedDate(null);
 
     const handleOnMeetingDetailsClick = (data) => {
         setSelectedMeeting(data);
