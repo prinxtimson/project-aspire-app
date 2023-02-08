@@ -90,7 +90,7 @@ const App = () => {
                     dispatch(newNotification(notification));
                 }
             );
-            let language = user?.setting.language || "en";
+            let language = user?.setting?.language || "en";
             i18next.changeLanguage(language);
         }
     }, [user]);

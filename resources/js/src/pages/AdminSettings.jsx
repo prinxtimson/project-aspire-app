@@ -56,9 +56,9 @@ const AdminSettings = () => {
 
     useEffect(() => {
         setData({
-            font: user?.setting.font || "",
-            theme: user?.setting.theme || "",
-            language: user?.setting.language || "",
+            font: user?.setting?.font || "",
+            theme: user?.setting?.theme || "",
+            language: user?.setting?.language || "",
         });
     }, [user]);
 
