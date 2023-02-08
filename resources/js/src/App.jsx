@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import { useTranslation } from "react-i18next";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import { getCurrentUser, newNotification } from "./features/auth/authSlice";
@@ -22,18 +22,25 @@ import ActionProvider from "./chatbot/ActionProvider";
 import ReactGA from "react-ga";
 
 import "./i18n";
+import i18next from "i18next";
 
 import HomePage from "./pages/Home";
+import AdminHomePage from "./pages/AdminHome";
 import RegistrationPage from "./pages/Registration";
+import AdminRegistrationPage from "./pages/AdminRegistration";
+import AdminLoginPage from "./pages/AdminLogin";
 import AboutUsPage from "./pages/AboutUs";
 import ChangePasswordPage from "./pages/ChangePassword";
+import AdminChangePasswordPage from "./pages/AdminChangePassword";
 import ContactUsPage from "./pages/ContactUs";
 import ForgotPasswordPage from "./pages/ForgotPassword";
+import AdminForgotPasswordPage from "./pages/AdminForgotPassword";
 import LoginPage from "./pages/Login";
 import PrivacyPolicyPage from "./pages/PrivatePolicy";
 import ProfilePage from "./pages/Profile";
 import PurchasePage from "./pages/Purchase";
 import ResetPasswordPage from "./pages/ResetPassword";
+import AdminResetPasswordPage from "./pages/AdminResetPassword";
 import SolutionPage from "./pages/Solution";
 import SubscriptionPage from "./pages/Subscription";
 import TermsAndConditionsPage from "./pages/TermsAndConditions";
@@ -49,6 +56,7 @@ import SportsChart from "./components/SportsChart";
 import AdminDashboard from "./components/AdminDashboard";
 import AdminReport from "./pages/AdminReport";
 import TwoFactorAuth from "./pages/TwoFactorAuth";
+import AdminTwoFactorAuth from "./pages/AdminTwoFactorAuth";
 import ProductCatalogue from "./pages/ProductCatalogue";
 import ProductsTrendChart from "./pages/ProductTrends";
 import ProductsSalesChart from "./pages/ProductSales";
@@ -57,6 +65,10 @@ import Fashion from "./pages/Fashion";
 import FeedbackTable from "./pages/FeedbackTable";
 import ArchiveFeedback from "./pages/ArchiveFeedback";
 import MeetingCalendar from "./pages/MeetingCalendar";
+import AdminEmailVerification from "./pages/AdminEmailVerification";
+import AdminProfile from "./pages/AdminProfile";
+import EditAdminProfile from "./pages/EditAdminProfile";
+import DeleteAdminProfile from "./pages/DeleteAdminProfile";
 
 ReactGA.initialize("UA-209541600-1");
 
@@ -78,10 +90,12 @@ const App = () => {
                     dispatch(newNotification(notification));
                 }
             );
+            let language = user?.setting.language || "en";
+            i18next.changeLanguage(language);
         }
     }, [user]);
 
-    useMemo(() => {
+    useEffect(() => {
         dispatch(getCurrentUser());
     }, []);
 
@@ -91,6 +105,7 @@ const App = () => {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<HomePage />} />
+
                     <Route
                         path="/register"
                         element={
@@ -119,14 +134,14 @@ const App = () => {
                             </GuestRoute>
                         }
                     />
+                    <Route
+                        path="/email/verify"
+                        element={<AdminEmailVerification />}
+                    />
                     <Route path="/contact-us" element={<ContactUsPage />} />
                     <Route
                         path="/reset-password/:token"
-                        element={
-                            <GuestRoute>
-                                <ResetPasswordPage />
-                            </GuestRoute>
-                        }
+                        element={<ResetPasswordPage />}
                     />
                     <Route path="/subscribe">
                         <Route path="" element={<SubscriptionPage />} />
@@ -165,6 +180,86 @@ const App = () => {
                         }
                     />
                     <Route path="/about-us" element={<AboutUsPage />} />
+                    <Route path="admin">
+                        <Route path="" element={<AdminHomePage />} />
+                        <Route
+                            path="register"
+                            element={
+                                <GuestRoute>
+                                    <AdminRegistrationPage />
+                                </GuestRoute>
+                            }
+                        />
+                        <Route
+                            path="login"
+                            element={
+                                <GuestRoute>
+                                    <AdminLoginPage />
+                                </GuestRoute>
+                            }
+                        />
+                        <Route
+                            path="forgot-password"
+                            element={
+                                <GuestRoute>
+                                    <AdminForgotPasswordPage />
+                                </GuestRoute>
+                            }
+                        />
+                        <Route
+                            path="two-factor-auth"
+                            element={<AdminTwoFactorAuth />}
+                        />
+                        <Route path="dashboard">
+                            <Route
+                                path=""
+                                element={
+                                    <AuthRoute>
+                                        <AdminDashboard />
+                                    </AuthRoute>
+                                }
+                            />
+                            <Route path="manage-account">
+                                <Route
+                                    path=""
+                                    element={
+                                        <AuthRoute>
+                                            <AdminProfile />
+                                        </AuthRoute>
+                                    }
+                                />
+                                <Route
+                                    path="edit-profile"
+                                    element={
+                                        <AuthRoute>
+                                            <EditAdminProfile />
+                                        </AuthRoute>
+                                    }
+                                />
+                                <Route
+                                    path="change-password"
+                                    element={
+                                        <AuthRoute>
+                                            <AdminChangePasswordPage />
+                                        </AuthRoute>
+                                    }
+                                />
+                                <Route
+                                    path="delete-account"
+                                    element={
+                                        <AuthRoute>
+                                            <DeleteAdminProfile />
+                                        </AuthRoute>
+                                    }
+                                />
+                            </Route>
+                        </Route>
+
+                        <Route
+                            path="reset-password/:token"
+                            element={<AdminResetPasswordPage />}
+                        />
+                    </Route>
                     <Route path="dashboard">
                         <Route
                             path=""
@@ -172,7 +267,7 @@ const App = () => {
                                 <AuthRoute>
                                     {!isLoading &&
                                     user?.roles[0]?.name === "admin" ? (
-                                        <AdminDashboard />
+                                        <Navigate to="/admin/dashboard" />
                                     ) : (
                                         <Dashboard />
                                     )}
@@ -317,7 +412,7 @@ const App = () => {
                     zIndex: 6,
                 }}
             >
-                <div
+                {/* <div
                     className={!showChat ? "d-none" : ""}
                     style={{ position: "relative", width: 275 }}
                 >
@@ -326,8 +421,8 @@ const App = () => {
                         messageParser={MessageParser}
                         actionProvider={ActionProvider}
                     />
-                </div>
-                <button
+                </div> */}
+                {/* <button
                     style={{
                         backgroundColor: "#1f3646",
                         border: "none",
@@ -342,7 +437,7 @@ const App = () => {
                     onClick={toggleChatBot}
                 >
                     <FaRobot color="#fff" size={30} />
-                </button>
+                </button> */}
             </div>
         </>
     );

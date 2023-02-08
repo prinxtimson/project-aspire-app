@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TwoFactorAuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebNotificationController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,10 +27,26 @@ Route::get('two-factor-auth/resend', [TwoFactorAuthController::class, 'resend'])
 Route::middleware(['auth:sanctum', 'n2fa'])->get('/two-factor-auth', function () {
     return view('welcome');
 })->name('2fa.index');
+Route::middleware(['auth:sanctum', 'n2fa'])->get('admin/two-factor-auth', function () {
+    return view('welcome');
+})->name('2fa.index');
+
+Route::get('/email/verify', function () {
+    return view('welcome');
+})->middleware('auth:sanctum')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return to_route('admin.login');
+})->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+Route::get('/admin', function () {
+    return view('welcome');
+})->name('home.admin');
 Route::get('/privacy-policy', function () {
     return view('welcome');
 });
@@ -59,10 +76,26 @@ Route::middleware(['guest'])->group(function () {
     Route::get('register', function () {
         return view('welcome');
     })->name('register');
+    
+    Route::get('admin/login', function () {
+        return view('welcome');
+    })->name('admin.login');
+
+    Route::get('admin/forgot-password', function () {
+        return view('welcome');
+    });
+
+    Route::get('admin/register', function () {
+        return view('welcome');
+    })->name('admin.register');
 
     Route::get('reset-password/{token}', function () {
         return view('welcome');
     })->name('password.reset');
+
+    Route::get('admin/reset-password/{token}', function () {
+        return view('welcome');
+    })->name('admin.password.reset');
 
     Route::get('forgot-password', function () {
         return view('welcome');
@@ -75,7 +108,7 @@ Route::middleware(['guest'])->group(function () {
     Route::post('register', [UserController::class, 'register']);
 });
 
-Route::middleware(['auth:sanctum', '2fa'])->group(function () {
+Route::middleware(['auth:sanctum', '2fa', 'verified'])->group(function () {
     Route::put('change-password', [AuthController::class, 'changePass']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::get('change-password', function () {
@@ -86,6 +119,28 @@ Route::middleware(['auth:sanctum', '2fa'])->group(function () {
     });
     Route::get('dashboard/{name?}', function () {
         return view('welcome');
+    });
+
+    Route::group(['prefix' => 'admin'], function () {
+        Route::group(['prefix' => 'dashboard'], function () {
+            Route::get("", function () {
+                return view('welcome');
+            });
+            Route::group(['prefix' => 'manage-account'], function () {
+                Route::get("", function () {
+                    return view('welcome');
+                });
+                Route::get("edit-profile", function () {
+                    return view('welcome');
+                });
+                Route::get("change-password", function () {
+                    return view('welcome');
+                });
+                Route::get("delete-account", function () {
+                    return view('welcome');
+                });
+            });
+        });
     });
    
     Route::get('analytics/download', [AnalysisController::class, 'download']);

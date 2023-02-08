@@ -15,9 +15,7 @@ const MainHeader = () => {
     const [searchResult, setSearchResult] = useState([]);
 
     const dispatch = useDispatch();
-    const { user, isLoading, notifications } = useSelector(
-        (state) => state.auth
-    );
+    const { user, isLoading } = useSelector((state) => state.auth);
 
     useEffect(() => {
         window.addEventListener("resize", updateWidth);
@@ -195,7 +193,7 @@ const MainHeader = () => {
                                         className="position-absolute  translate-middle badge rounded-pill bg-danger"
                                         style={{ top: 12, left: 38 }}
                                     >
-                                        {notifications?.count || 0}
+                                        {user?.unread_notifications.length || 0}
                                         <span className="visually-hidden">
                                             unread messages
                                         </span>
@@ -210,8 +208,8 @@ const MainHeader = () => {
                                     maxHeight: 400,
                                 }}
                             >
-                                {notifications?.data.length > 0 ? (
-                                    notifications.data.map((item) =>
+                                {user?.notifications?.length > 0 ? (
+                                    user?.notifications.map((item) =>
                                         item.type ==
                                         "App\\Notifications\\ProfileUpdated" ? (
                                             <li

@@ -28,18 +28,21 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+            //$request->session()->regenerate();
+            $token = auth()->user()->createToken('access_token')->plainTextToken;
 
-            auth()->user()->generate_code();
-            $notifications = auth()->user()->notifications;
-            $count = auth()->user()->unreadNotifications->count();
+            
+            $user = auth()->user()->load(['roles', 'profile', 'setting']);
+            if ($user->email_verified_at){
+                auth()->user()->generate_code();
+            }
+
+            auth()->user()->notifications;
+            auth()->user()->unreadNotifications;
 
             $response = [
-                'user' => auth()->user()->load(['roles', 'profile']),
-                'notifications' => [
-                    'data' => $notifications,
-                    'count' => $count
-                ],
+                'token' => $token,
+                'user' => auth()->user()
             ];
 
             return $response;
@@ -50,26 +53,29 @@ class AuthController extends Controller
         ], 401);
     }
 
-    public function me() {
-        $user = auth()->user()->load(['roles', 'profile']);
+    public function resendVerificationEmail(Request $request)
+    {
+        $request->user()->sendEmailVerificationNotification();
 
-        $notifications = auth()->user()->notifications;
-        $count = auth()->user()->unreadNotifications->count();
+        return response([
+            'message' => 'Verification email had been resent'
+        ], 200);
+    }
+
+    public function me() {
+        auth()->user()->load(['roles', 'profile', 'setting']);
+        auth()->user()->notifications;
+        auth()->user()->unreadNotifications;
 
         $response = [
-            'user' => $user,
-            'notifications' => [
-                    'data' => $notifications,
-                    'count' => $count
-                ],
+            'user' => auth()->user()
         ];
-        return $response;
+        
+        return response()->json($response, 200);
     }
 
     public function logout(Request $request) {
         auth()->user()->tokens()->delete();
-
-        //Auth::logout();
 
         $request->session()->invalidate();
 
@@ -84,15 +90,13 @@ class AuthController extends Controller
 
         $fields = $request->validate([
             'name' => 'required|string',
-            'user_status' => 'required|string'
+            'username' => 'required|string',
+            'user_status' => 'string'
         ]);
 
-        $username = str_replace(' ', '', trim($fields['name']));
-
-        //$user = User::find($user);
         $user->update([
             'name' =>  $fields['name'],
-            'username' => strtolower($username),
+            'username' => strtolower($fields['username']),
             'status' => $fields['user_status'] ?? $user['status']
         ]);
 
@@ -105,19 +109,15 @@ class AuthController extends Controller
             ]);
         }
 
-        $user->refresh()->load(['profile','roles']);
-
+        $user->refresh()->load(['profile']);
         $user->notify(new ProfileUpdated($user));
-
-        $notifications = auth()->user()->notifications;
-        $count = auth()->user()->unreadNotifications->count();
+        
+        auth()->user()->load(['roles', 'profile', 'setting']);
+        auth()->user()->notifications;
+        auth()->user()->unreadNotifications;
 
         $response = [
-            'user' => $user,
-            'notifications' => [
-                'data' => $notifications,
-                'count' => $count
-            ],
+            'user' => auth()->user(),
         ];
 
         return $response;
@@ -195,15 +195,14 @@ class AuthController extends Controller
 
     public function markNotification()
     {
-        $user = auth()->user();
 
-        $user->unreadNotifications->markAsRead();
-
-        $user->refresh();
+        auth()->user()->unreadNotifications->markAsRead();
+        auth()->user()->load(['roles', 'profile']);
+        auth()->user()->notifications;
+        auth()->user()->unreadNotifications;
         
         $response = [
-            'data' => $user->notifications,
-            'count' => $user->unreadNotifications->count(),
+            'user' => auth()->user(),
         ];
 
         return $response;

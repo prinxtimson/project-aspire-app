@@ -12,6 +12,12 @@ const register = async (userData) => {
     return res.data;
 };
 
+const registerAdmin = async (userData) => {
+    const res = await axios.post(`${API_URL}/admin-register`, userData);
+
+    return res.data;
+};
+
 const getCurrentUser = async () => {
     const res = await axios.get(`${API_URL}/me`);
 
@@ -25,15 +31,20 @@ const getCurrentUser = async () => {
 const logout = async () => {
     await axios.post("/logout");
     localStorage.removeItem("elintx-user");
+    localStorage.removeItem("elintx-access-token");
     localStorage.removeItem("elintx-2fa");
 };
 
 const login = async (userData) => {
     await axios.get(`/sanctum/csrf-cookie`);
-    const res = await axios.post(`/login`, userData);
+    const res = await axios.post(`${API_URL}/login`, userData);
 
     if (res.data) {
         localStorage.setItem("elintx-user", JSON.stringify(res.data.user));
+        localStorage.setItem(
+            "elintx-access-token",
+            JSON.stringify(res.data.token)
+        );
     }
 
     return res.data;
@@ -41,6 +52,12 @@ const login = async (userData) => {
 
 const forgotPass = async (email) => {
     const res = await axios.post(API_URL + "/forgot-password", email);
+
+    return res.data;
+};
+
+const updateSetting = async (data) => {
+    const res = await axios.put(API_URL + "/settings/update", data);
 
     return res.data;
 };
@@ -89,7 +106,11 @@ const resendVerification = async () => {
 };
 
 const deleteAccount = async () => {
-    if (window.confirm("Are you sure? This can NOT be undone!")) {
+    if (
+        window.confirm(
+            'You have requested to permanently delete your account. This will mean you will no longer be able to access the portal. Click "YES" if you are sure you really want to permanently delete your account. Click "NO" to stop or continue to access your account.'
+        )
+    ) {
         const res = await axios.delete(`/delete-account`);
 
         return res.data;
@@ -98,6 +119,7 @@ const deleteAccount = async () => {
 
 const authService = {
     register,
+    registerAdmin,
     logout,
     login,
     updateUser,
@@ -110,6 +132,7 @@ const authService = {
     resendCode,
     deleteAccount,
     markNotification,
+    updateSetting,
 };
 
 export default authService;

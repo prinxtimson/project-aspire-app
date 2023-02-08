@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class User extends Authenticatable implements HasMedia
+class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
     use HasApiTokens, HasRoles, HasFactory, Notifiable, InteractsWithMedia, SoftDeletes;
 
@@ -58,6 +58,11 @@ class User extends Authenticatable implements HasMedia
     public function profile () 
     {
         return $this->hasOne(Profile::class);
+    }
+
+    public function setting () 
+    {
+        return $this->hasOne(Setting::class);
     }
 
     public function subscription()

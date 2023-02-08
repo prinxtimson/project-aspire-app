@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 
@@ -29,33 +30,50 @@ class UserController extends Controller
         //
         $fields = $request->validate([
             'name' => 'required|string',
+            'username' => 'required||unique:users,username',
+            'dob' => 'nullable|date',
+            'role' => 'nullable|string',
             'email' => 'required|string|unique:users,email',
             'password' => 'required|string|confirmed'
-        ]);
+        ]); 
 
         $hash = md5(strtolower(trim($fields['email'])));
-
-        $username = str_replace(' ', '', $fields['name']);
 
         $user = User::create([
             'name' =>  $fields['name'],
             'email' => $fields['email'],
-            'username' => strtolower($username),
+            'username' => strtolower($fields['username']),
             'avatar' => 'https://www.gravatar.com/avatar/'.$hash,
             'password' => bcrypt($fields['password'])
         ]);
 
         $user->profile()->create([
             'name' => $fields['name'],
+            'dob' => $fields['dob']
         ]);
 
-        $user->assignRole('user');
+        $user->setting()->create([
+            'font' => 'roboto',
+            'theme' => 'dark',
+            'language' => 'en'
+        ]);
+
+        if (isset($fields['role'])){
+            $user->assignRole($fields['role']);
+        }else {
+            $user->assignRole('user');
+        }
+
+        Auth::login($user);
 
         $token = $user->createToken('access_token')->plainTextToken;
+        auth()->user()->load(['roles', 'profile', 'setting']);
+        auth()->user()->notifications;
+        auth()->user()->unreadNotifications;
 
         $response = [
-            'user' => $user->load(['roles']),
-            'token' => $token
+            'token' => $token,
+            'user' => auth()->user()
         ];
 
         return $response;
@@ -63,42 +81,46 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
-        //
         $fields = $request->validate([
             'name' => 'required|string',
+            'username' => 'required|string|unique:users,username',
+            'dob' => 'nullable|date',
+            'role' => 'nullable|string',
             'email' => 'required|string|unique:users,email',
             'password' => 'required|string|confirmed'
         ]);
 
         $hash = md5(strtolower(trim($fields['email'])));
 
-        $username = str_replace(' ', '', $fields['name']);
-
         $user = User::create([
             'name' =>  $fields['name'],
             'email' => $fields['email'],
-            'username' => strtolower($username),
+            'username' => strtolower($fields['username']),
             'avatar' => 'https://www.gravatar.com/avatar/'.$hash,
             'password' => bcrypt($fields['password'])
         ]);
 
         $user->profile()->create([
             'name' => $fields['name'],
+            'dob' => $fields['dob']
         ]);
 
-        $user->assignRole('user');
+        $user->setting()->create([
+            'font' => 'roboto',
+            'theme' => 'dark',
+            'language' => 'en'
+        ]);
 
-        Auth::login($user);
+        if (isset($fields['role'])){
+            $user->assignRole($fields['role']);
+        }else {
+            $user->assignRole('user');
+        }
 
-        $request->session()->regenerate();
-
-        auth()->user()->generate_code();
-
-        $token = $user->createToken('access_token')->plainTextToken;
+        event(new Registered($user));
 
         $response = [
-            'user' => $user->load(['roles']),
-            'token' => $token
+            'message' => 'Admin registration successful'
         ];
 
         return $response;

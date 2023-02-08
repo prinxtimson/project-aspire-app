@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, Navigate } from "react-router-dom";
 import MainFooter from "./MainFooter";
 import { logout, markNotification, reset } from "../features/auth/authSlice";
 import { useTranslation } from "react-i18next";
@@ -27,6 +27,12 @@ const DashboardContainer = ({ children }) => {
             dispatch(reset());
         }, 3000);
     }, [isError]);
+
+    useEffect(() => {
+        if (!user) {
+            return <Navigate to="../login" />;
+        }
+    }, [user]);
 
     useEffect(() => {
         const notificationMenu = document.getElementById("notificationMenu");
@@ -388,7 +394,8 @@ const DashboardContainer = ({ children }) => {
                                                 className="position-absolute  translate-middle badge rounded-pill bg-danger"
                                                 style={{ top: 10, left: 40 }}
                                             >
-                                                {notifications?.count || 0}
+                                                {user?.unread_notifications
+                                                    .length || 0}
                                                 <span className="visually-hidden">
                                                     unread messages
                                                 </span>
@@ -403,8 +410,8 @@ const DashboardContainer = ({ children }) => {
                                             maxHeight: 400,
                                         }}
                                     >
-                                        {notifications?.data.length > 0 ? (
-                                            notifications.data.map((item) =>
+                                        {user?.notifications?.length > 0 ? (
+                                            user?.notifications.map((item) =>
                                                 item.type ==
                                                 "App\\Notifications\\ProfileUpdated" ? (
                                                     <li

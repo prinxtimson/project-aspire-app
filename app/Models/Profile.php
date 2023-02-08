@@ -11,6 +11,11 @@ class Profile extends Model
 
     protected $fillable = [
         'name',
+        'dob'
+    ];
+
+    protected $casts = [
+        'dob' => 'date'
     ];
 
     public function user() {

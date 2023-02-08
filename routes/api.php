@@ -25,7 +25,8 @@ use App\Http\Controllers\FeedbackController;
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/forgot-password', [AuthController::class, 'forgotPass']);
 Route::post('/reset-password', [AuthController::class, 'resetPass']);
-Route::post('/register', [UserController::class, 'register']);
+Route::post('/register', [UserController::class, 'store']);
+Route::post('/admin-register', [UserController::class, 'register']);
 Route::get('/content/{type}', [ContentController::class, 'show']);
 Route::get('sport/football/{id}', [ChartController::class, 'statistics']);
 
@@ -33,12 +34,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware('auth:sanctum')->post('/email/verification-notification', [AuthController::class, 'resendVerificationEmail']);
+
 Route::post('/on-cancel', [SubscriptionController::class, 'on_cancel']);
 Route::post('/on-suspended', [SubscriptionController::class, 'on_suspended']);
 Route::post('/payment-failed', [SubscriptionController::class, 'payment_failed']);
 Route::get('analytics/bounce/{days}', [AnalysisController::class, 'bounce']);
 
-Route::group(['middleware' => ['auth:sanctum', '2fa']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
+    
     Route::get('/me', [AuthController::class, 'me']);
     Route::get('/mark-notification', [AuthController::class, 'markNotification']);
     Route::delete('/delete-account', [AuthController::class, 'delete']);
@@ -89,9 +93,11 @@ Route::group(['middleware' => ['auth:sanctum', '2fa']], function () {
     Route::get('analytics/country/{days}', [AnalysisController::class, 'session_country']);
     Route::get('analytics/bounce/{days}', [AnalysisController::class, 'bounce']);
     Route::get('analytics/analysis', [AnalysisController::class, 'analysis']);
+
+    Route::put('settings/update', [SettingController::class, 'update']);
 });
 
-Route::group(['middleware' => ['auth:sanctum', 'role:admin']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'role:admin', 'verified']], function () {
     //
     Route::get('users', [UserController::class, 'index']);
     Route::delete('users/{id}', [UserController::class, 'destroy']);

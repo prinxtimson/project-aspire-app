@@ -4,11 +4,12 @@ import authService from "./authService";
 // Get user from local storage
 const user = localStorage.getItem("elintx-user");
 const tfa = localStorage.getItem("elintx-2fa");
+const token = localStorage.getItem("elintx-access-token");
 
 const initialState = {
     user: user === "undefined" ? null : JSON.parse(user),
     tfa: tfa == "undefined" ? null : tfa,
-    notifications: null,
+    token: token == "undefined" ? null : token,
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -34,10 +35,27 @@ export const register = createAsyncThunk(
     }
 );
 
+export const registerAdmin = createAsyncThunk(
+    "auth/admin-register",
+    async (data, thunkAPI) => {
+        try {
+            return await authService.registerAdmin(data);
+        } catch (err) {
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
+
 export const login = createAsyncThunk("auth/login", async (data, thunkAPI) => {
     try {
-        await authService.login(data);
-        return authService.getCurrentUser();
+        return await authService.login(data);
     } catch (err) {
         const msg =
             (err.response && err.response.data && err.response.data.message) ||
@@ -54,8 +72,9 @@ export const updateUser = createAsyncThunk(
         try {
             return await authService.updateUser(data);
         } catch (err) {
-            if (err.response.status === 401) {
+            if (err.response.status === 401 || err.response.status === 403) {
                 localStorage.removeItem("elintx-user");
+                localStorage.removeItem("elintx-access-token");
                 localStorage.removeItem("elintx-2fa");
                 thunkAPI.dispatch(clearUser());
             }
@@ -115,8 +134,9 @@ export const changePass = createAsyncThunk(
         try {
             return await authService.changePass(data);
         } catch (err) {
-            if (err.response.status === 401) {
+            if (err.response.status === 401 || err.response.status === 403) {
                 localStorage.removeItem("elintx-user");
+                localStorage.removeItem("elintx-access-token");
                 localStorage.removeItem("elintx-2fa");
                 thunkAPI.dispatch(clearUser());
             }
@@ -136,7 +156,7 @@ export const verifyCode = createAsyncThunk(
     "auth/verify-code",
     async (data, thunkAPI) => {
         try {
-            await authService.verifyCode(data);
+            return await authService.verifyCode(data);
         } catch (err) {
             const msg =
                 (err.response &&
@@ -144,6 +164,31 @@ export const verifyCode = createAsyncThunk(
                     err.response.data.message) ||
                 err.message ||
                 err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
+
+export const updateSetting = createAsyncThunk(
+    "auth/update-settings",
+    async (data, thunkAPI) => {
+        try {
+            return await authService.updateSetting(data);
+        } catch (err) {
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            if (err.response.status === 401 || err.response.status === 403) {
+                localStorage.removeItem("elintx-user");
+                localStorage.removeItem("elintx-access-token");
+                localStorage.removeItem("elintx-2fa");
+                thunkAPI.dispatch(clearUser());
+            }
 
             return thunkAPI.rejectWithValue(msg);
         }
@@ -172,8 +217,9 @@ export const getCurrentUser = createAsyncThunk("auth/me", async (thunkAPI) => {
     try {
         return await authService.getCurrentUser();
     } catch (err) {
-        if (err.response.status === 401) {
+        if (err.response.status === 401 || err.response.status === 403) {
             localStorage.removeItem("elintx-user");
+            localStorage.removeItem("elintx-access-token");
             localStorage.removeItem("elintx-2fa");
             thunkAPI.dispatch(clearUser());
         }
@@ -192,8 +238,9 @@ export const markNotification = createAsyncThunk(
         try {
             return await authService.markNotification();
         } catch (err) {
-            if (err.response.status === 401) {
+            if (err.response.status === 401 || err.response.status === 403) {
                 localStorage.removeItem("elintx-user");
+                localStorage.removeItem("elintx-access-token");
                 localStorage.removeItem("elintx-2fa");
                 thunkAPI.dispatch(clearUser());
             }
@@ -215,8 +262,9 @@ export const deleteAccount = createAsyncThunk(
         try {
             return await authService.deleteAccount();
         } catch (err) {
-            if (err.response.status === 401) {
+            if (err.response.status === 401 || err.response.status === 403) {
                 localStorage.removeItem("elintx-user");
+                localStorage.removeItem("elintx-access-token");
                 localStorage.removeItem("elintx-2fa");
                 thunkAPI.dispatch(clearUser());
             }
@@ -240,6 +288,7 @@ export const resendVerification = createAsyncThunk(
         } catch (err) {
             if (err.response.status === 401) {
                 localStorage.removeItem("elintx-user");
+                localStorage.removeItem("elintx-access-token");
                 localStorage.removeItem("elintx-2fa");
                 thunkAPI.dispatch(clearUser());
             }
@@ -299,6 +348,22 @@ export const authSlice = createSlice({
                 state.isLoading = false;
                 state.isError = true;
                 state.user = null;
+                state.token = null;
+                state.message = action.payload;
+            })
+            .addCase(registerAdmin.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(registerAdmin.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.message = action.payload.message;
+            })
+            .addCase(registerAdmin.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.user = null;
+                state.token = null;
                 state.message = action.payload;
             })
             .addCase(updateUser.pending, (state) => {
@@ -309,9 +374,22 @@ export const authSlice = createSlice({
                 state.isSuccess = true;
                 state.message = "Profile update successful";
                 state.user = action.payload.user;
-                state.notifications = action.payload.notifications;
             })
             .addCase(updateUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(updateSetting.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(updateSetting.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.message = action.payload.message;
+                state.user = action.payload.user;
+            })
+            .addCase(updateSetting.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;
@@ -344,10 +422,11 @@ export const authSlice = createSlice({
                 state.message = action.payload;
             })
             .addCase(logout.fulfilled, (state) => {
+                state.token = null;
                 state.user = null;
                 state.tfa = null;
             })
-            .addCase(deleteAccount.fulfilled, (state) => {
+            .addCase(deleteAccount.fulfilled, (state, action) => {
                 state.user = null;
             })
             .addCase(login.pending, (state) => {
@@ -356,28 +435,32 @@ export const authSlice = createSlice({
             .addCase(login.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
+                state.user = action.payload.user;
+                state.token = action.payload.token;
             })
             .addCase(login.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;
                 state.user = null;
+                state.token = null;
             })
             .addCase(markNotification.fulfilled, (state, action) => {
-                state.notifications = action.payload;
+                state.user = action.payload.user;
             })
             .addCase(getCurrentUser.pending, (state) => {
                 state.isLoading = true;
             })
             .addCase(getCurrentUser.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.notifications = action.payload.notifications;
                 state.user = action.payload.user;
             })
             .addCase(getCurrentUser.rejected, (state, action) => {
                 state.isLoading = false;
                 state.message = action.payload;
                 state.user = null;
+                state.token = null;
+                state.tfa = null;
             })
             .addCase(changePass.pending, (state) => {
                 state.isLoading = true;
@@ -385,7 +468,7 @@ export const authSlice = createSlice({
             .addCase(changePass.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.message = action.payload;
+                state.message = action.payload.message;
             })
             .addCase(changePass.rejected, (state, action) => {
                 state.isLoading = false;
@@ -411,7 +494,7 @@ export const authSlice = createSlice({
             .addCase(resendVerification.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.message = action.payload;
+                state.message = action.payload.message;
             })
             .addCase(resendVerification.rejected, (state, action) => {
                 state.isLoading = false;
