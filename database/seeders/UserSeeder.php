@@ -17,26 +17,6 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $hash = md5(strtolower('projectaspire0822@gmail.com'));
-        $user = User::create([
-            'name' => 'Project Aspire',
-            'username' => 'aspire',
-            'avatar' => 'https://www.gravatar.com/avatar/'.$hash,
-            'email' => 'projectaspire0822@gmail.com',
-            'password' => Hash::make('Tritek@2022'),
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-        ]);
-
-        $user->markEmailAsVerified();
-
-        $user->assignRole('admin');
-
-        $user->profile()->create([
-            'name' => 'Project Aspire',
-            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-        ]);
 
         $hash = md5(strtolower('developertritek@gmail.com'));
         $user = User::create([
@@ -57,6 +37,12 @@ class UserSeeder extends Seeder
             'name' => 'Tritek Dev',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+        ]);
+
+        $user->setting()->create([
+            'font' => 'roboto',
+            'theme' => 'dark',
+            'language' => 'en'
         ]);
     }
 }
