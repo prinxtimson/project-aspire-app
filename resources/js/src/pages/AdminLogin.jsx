@@ -32,6 +32,10 @@ const AdminLogin = () => {
     }, []);
 
     useEffect(() => {
+        setTimeout(() => {
+            dispatch(reset());
+        }, 3000);
+
         if (isSuccess) {
             dispatch(reset());
             if (user && user.email_verified_at) {

@@ -48,8 +48,8 @@ const AdminRegistration = () => {
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
-
-        dispatch(registerAdmin(formData));
+        console.log(formData);
+        //dispatch(registerAdmin(formData));
     };
 
     return (
