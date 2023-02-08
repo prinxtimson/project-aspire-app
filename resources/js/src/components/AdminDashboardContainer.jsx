@@ -31,7 +31,7 @@ const AdminDashboardContainer = ({ children }) => {
 
     useEffect(() => {
         if (!user) {
-            return <Navigate to="../login" />;
+            return <Navigate to="/admin/login" />;
         }
     }, [user]);
 

@@ -9,7 +9,9 @@ const AuthRoute = ({ children }) => {
     const { user, tfa, isLoading } = useSelector((state) => state.auth);
 
     if (!isLoading && !user) {
-        return <Navigate to="../login" state={{ path: location.pathname }} />;
+        return (
+            <Navigate to="/admin/login" state={{ path: location.pathname }} />
+        );
     }
 
     if (!isLoading && user && !tfa) {
