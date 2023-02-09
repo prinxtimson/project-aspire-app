@@ -9,6 +9,8 @@ import { registerAdmin, reset } from "../features/auth/authSlice";
 
 const AdminRegistration = () => {
     const { t } = useTranslation(["register"]);
+    const [visible, setVisible] = useState(false);
+    const [visible1, setVisible1] = useState(false);
     const [formData, setFormData] = useState({
         name: "",
         username: "",
@@ -138,34 +140,62 @@ const AdminRegistration = () => {
                                             {t("email")}
                                         </label>
                                     </div>
-                                    <div className="form-floating col-12">
-                                        <input
-                                            type="password"
-                                            className="form-control form-control-lg"
-                                            value={password}
-                                            placeholder="Password"
-                                            id="password"
-                                            autoComplete="new-password"
-                                            onChange={handleOnChange}
-                                            required
-                                        />
-                                        <label htmlFor="floatingInput">
-                                            {t("password")}
-                                        </label>
+                                    <div className="input-group col-12">
+                                        <div className="form-floating">
+                                            <input
+                                                type="password"
+                                                className="form-control form-control-lg"
+                                                value={password}
+                                                placeholder="Password"
+                                                id="password"
+                                                autoComplete="new-password"
+                                                onChange={handleOnChange}
+                                                required
+                                            />
+                                            <label htmlFor="floatingInput">
+                                                {t("password")}
+                                            </label>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            className="btn btn-outline-secondary"
+                                            onClick={() => setVisible(!visible)}
+                                        >
+                                            {visible ? (
+                                                <i className="fa fa-eye-slash"></i>
+                                            ) : (
+                                                <i className="fa fa-eye"></i>
+                                            )}
+                                        </button>
                                     </div>
-                                    <div className="form-floating col-12">
-                                        <input
-                                            type="password"
-                                            className="form-control form-control-lg"
-                                            value={password_confirmation}
-                                            placeholder="Confirm password"
-                                            id="password_confirmation"
-                                            onChange={handleOnChange}
-                                            required
-                                        />
-                                        <label htmlFor="floatingInput">
-                                            {t("confirm_password")}
-                                        </label>
+                                    <div className="input-group col-12">
+                                        <div className="form-floating">
+                                            <input
+                                                type="password"
+                                                className="form-control form-control-lg"
+                                                value={password_confirmation}
+                                                placeholder="Confirm password"
+                                                id="password_confirmation"
+                                                onChange={handleOnChange}
+                                                required
+                                            />
+                                            <label htmlFor="floatingInput">
+                                                {t("confirm_password")}
+                                            </label>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            className="btn btn-outline-secondary"
+                                            onClick={() =>
+                                                setVisible1(!visible1)
+                                            }
+                                        >
+                                            {visible1 ? (
+                                                <i className="fa fa-eye-slash"></i>
+                                            ) : (
+                                                <i className="fa fa-eye"></i>
+                                            )}
+                                        </button>
                                     </div>
                                     <div className="d-grid gap-2 col-12 mx-auto">
                                         <button

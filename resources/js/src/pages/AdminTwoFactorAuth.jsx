@@ -32,10 +32,11 @@ const AdminTwoFactorAuth = () => {
     }, [user]);
 
     useEffect(() => {
+        setTimeout(() => {
+            dispatch(reset());
+        }, 3000);
+
         if (isSuccess) {
-            setTimeout(() => {
-                dispatch(reset());
-            }, 3000);
             toast.success(message);
             dispatch(reset());
             navigate("/admin/dashboard", { replace: true });

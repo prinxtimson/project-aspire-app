@@ -14,10 +14,10 @@ const AdminEmailVerification = () => {
     );
 
     useEffect(() => {
+        setTimeout(() => {
+            dispatch(reset());
+        }, 3000);
         if (isSuccess) {
-            setTimeout(() => {
-                dispatch(reset());
-            }, 3000);
             toast.success(message);
             dispatch(reset());
         }

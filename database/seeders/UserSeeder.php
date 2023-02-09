@@ -44,5 +44,32 @@ class UserSeeder extends Seeder
             'theme' => 'dark',
             'language' => 'en'
         ]);
+
+        $hash = md5(strtolower('projecticonic102022@gmail.com'));
+        $user = User::create([
+            'name' => 'Project Iconic',
+            'username' => 'iconic',
+            'avatar' => 'https://www.gravatar.com/avatar/'.$hash,
+            'email' => 'projecticonic102022@gmail.com',
+            'password' => Hash::make('Tritek@2023'),
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+        ]);
+
+        $user->markEmailAsVerified();
+
+        $user->assignRole('admin');
+
+        $user->profile()->create([
+            'name' => 'Project Iconic',
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+        ]);
+
+        $user->setting()->create([
+            'font' => 'roboto',
+            'theme' => 'dark',
+            'language' => 'en'
+        ]);
     }
 }

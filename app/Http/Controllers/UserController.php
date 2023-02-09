@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use App\Models\Profile;
-use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Response;
@@ -102,14 +100,12 @@ class UserController extends Controller
             'password' => bcrypt($fields['password'])
         ]);
 
-        Profile::create([
-            'user_id' => $user->id,
+        $user->profile()->create([
             'name' => $fields['name'],
             'dob' => $fields['dob'] 
         ]);
 
-        Setting::create([
-            'user_id' => $user->id,
+        $user->setting()->create([
             'font' => 'roboto',
             'theme' => 'dark',
             'language' => 'en'
