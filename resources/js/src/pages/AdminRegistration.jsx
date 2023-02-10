@@ -179,7 +179,7 @@ const AdminRegistration = () => {
                                             id="passwordHelpBlock"
                                             className="form-text"
                                         >
-                                            Your password must be 8-20
+                                            Your password must be 8-12
                                             characters long, contain letters and
                                             numbers, and must not contain
                                             spaces, special characters, or

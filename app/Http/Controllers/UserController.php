@@ -89,7 +89,7 @@ class UserController extends Controller
             'dob' => 'nullable|date',
             'role' => 'nullable|string',
             'email' => 'required|string|unique:users,email',
-            'password' => 'required|string|confirmed|min:8|max:12|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/'
+            'password' => 'required|string|confirmed|min:8|max:12|regex:/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,12}/'
         ]);
 
         $hash = md5(strtolower(trim($fields['email'])));
@@ -128,7 +128,7 @@ class UserController extends Controller
         return $response;
 
     } catch (Exception $e){
-            return response($e->getMessage(), 400);
+            return response($e, 400);
     }
     }
 
