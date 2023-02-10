@@ -158,6 +158,14 @@ const AdminDashboardContainer = ({ children }) => {
                                 <ul className="nav nav-pills flex-column mb-auto">
                                     <li className="ps-3">
                                         <Link
+                                            to="/admin/dashboard/manage-account"
+                                            className="nav-link text-white"
+                                        >
+                                            Profile
+                                        </Link>
+                                    </li>
+                                    <li className="ps-3">
+                                        <Link
                                             to="/admin/dashboard/manage-account/edit-profile"
                                             className="nav-link text-white"
                                         >

@@ -97,7 +97,6 @@ class AuthController extends Controller
         $user->update([
             'name' =>  $fields['name'],
             'username' => strtolower($fields['username']),
-            'status' => $fields['user_status'] ?? $user['status']
         ]);
 
         if ($request->hasFile('avatar')) {
