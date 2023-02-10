@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Response;
@@ -81,13 +82,14 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
+        try {
         $fields = $request->validate([
             'name' => 'required|string',
             'username' => 'required|string|unique:users,username',
             'dob' => 'nullable|date',
             'role' => 'nullable|string',
             'email' => 'required|string|unique:users,email',
-            'password' => 'required|string|confirmed'
+            'password' => 'required|string|confirmed|min:8|max:12|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/'
         ]);
 
         $hash = md5(strtolower(trim($fields['email'])));
@@ -100,10 +102,10 @@ class UserController extends Controller
             'password' => bcrypt($fields['password'])
         ]);
 
-        // $user->profile()->create([
-        //     'name' => $fields['name'],
-        //     'dob' => $fields['dob'] 
-        // ]);
+        $user->profile()->create([
+            'name' => $fields['name'],
+            'dob' => $fields['dob'] 
+        ]);
 
         $user->setting()->create([
             'font' => 'roboto',
@@ -124,6 +126,10 @@ class UserController extends Controller
         ];
 
         return $response;
+
+    } catch (Exception $e){
+            return $e->getMessage();
+    }
     }
 
         /**

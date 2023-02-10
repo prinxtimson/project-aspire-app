@@ -140,38 +140,61 @@ const AdminRegistration = () => {
                                             {t("email")}
                                         </label>
                                     </div>
-                                    <div className="input-group col-12">
-                                        <div className="form-floating">
-                                            <input
-                                                type="password"
-                                                className="form-control form-control-lg"
-                                                value={password}
-                                                placeholder="Password"
-                                                id="password"
-                                                autoComplete="new-password"
-                                                onChange={handleOnChange}
-                                                required
-                                            />
-                                            <label htmlFor="floatingInput">
-                                                {t("password")}
-                                            </label>
+                                    <div className="">
+                                        <div className="input-group col-12">
+                                            <div className="form-floating">
+                                                <input
+                                                    type={
+                                                        visible
+                                                            ? "text"
+                                                            : "password"
+                                                    }
+                                                    className="form-control form-control-lg"
+                                                    value={password}
+                                                    placeholder="Password"
+                                                    id="password"
+                                                    autoComplete="new-password"
+                                                    onChange={handleOnChange}
+                                                    required
+                                                />
+                                                <label htmlFor="floatingInput">
+                                                    {t("password")}
+                                                </label>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                className="btn btn-outline-secondary"
+                                                onClick={() =>
+                                                    setVisible(!visible)
+                                                }
+                                            >
+                                                {visible ? (
+                                                    <i className="fa fa-eye-slash"></i>
+                                                ) : (
+                                                    <i className="fa fa-eye"></i>
+                                                )}
+                                            </button>
                                         </div>
-                                        <button
-                                            type="button"
-                                            className="btn btn-outline-secondary"
-                                            onClick={() => setVisible(!visible)}
+                                        <div
+                                            id="passwordHelpBlock"
+                                            className="form-text"
                                         >
-                                            {visible ? (
-                                                <i className="fa fa-eye-slash"></i>
-                                            ) : (
-                                                <i className="fa fa-eye"></i>
-                                            )}
-                                        </button>
+                                            Your password must be 8-20
+                                            characters long, contain letters and
+                                            numbers, and must not contain
+                                            spaces, special characters, or
+                                            emoji.
+                                        </div>
                                     </div>
+
                                     <div className="input-group col-12">
                                         <div className="form-floating">
                                             <input
-                                                type="password"
+                                                type={
+                                                    visible1
+                                                        ? "text"
+                                                        : "password"
+                                                }
                                                 className="form-control form-control-lg"
                                                 value={password_confirmation}
                                                 placeholder="Confirm password"
