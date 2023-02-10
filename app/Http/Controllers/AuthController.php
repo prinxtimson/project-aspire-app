@@ -91,7 +91,7 @@ class AuthController extends Controller
         $fields = $request->validate([
             'name' => 'required|string',
             'username' => 'required|string',
-            'user_status' => 'string'
+            'user_status' => 'nullable|string'
         ]);
 
         $user->update([
@@ -128,7 +128,7 @@ class AuthController extends Controller
 
         $fields = $request->validate([
             'password' => 'required|string',
-            'new_password' => 'required|string|confirmed'
+            'new_password' => 'required|string|confirmed|min:8|max:12|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$/'
         ]);
 
         if(!Hash::check($fields['password'], $user->password)) {
@@ -169,7 +169,7 @@ class AuthController extends Controller
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',
-            'password' => 'required|min:8|confirmed',
+            'password' => 'required|string|confirmed|min:8|max:12|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$/',
         ]);
     
         $status = Password::reset(
