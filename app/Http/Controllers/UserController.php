@@ -100,10 +100,10 @@ class UserController extends Controller
             'password' => bcrypt($fields['password'])
         ]);
 
-        $user->profile()->create([
-            'name' => $fields['name'],
-            'dob' => $fields['dob'] 
-        ]);
+        // $user->profile()->create([
+        //     'name' => $fields['name'],
+        //     'dob' => $fields['dob'] 
+        // ]);
 
         $user->setting()->create([
             'font' => 'roboto',
