@@ -128,7 +128,7 @@ class UserController extends Controller
         return $response;
 
     } catch (Exception $e){
-            return $e->getMessage();
+            return response($e->getMessage(), 400);
     }
     }
 
