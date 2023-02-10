@@ -32,6 +32,7 @@ const AdminTwoFactorAuth = () => {
     }, [user]);
 
     useEffect(() => {
+        dispatch(reset());
         setTimeout(() => {
             dispatch(reset());
         }, 3000);
