@@ -83,53 +83,53 @@ class UserController extends Controller
     public function register(Request $request)
     {
         try {
-        $fields = $request->validate([
-            'name' => 'required|string',
-            'username' => 'required|string|unique:users,username',
-            'dob' => 'nullable|date',
-            'role' => 'nullable|string',
-            'email' => 'required|string|unique:users,email',
-            'password' => 'required|string|confirmed|min:8|max:12|regex:/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,12}/'
-        ]);
+            $fields = $request->validate([
+                'name' => 'required|string',
+                'username' => 'required|string|unique:users,username',
+                'dob' => 'nullable|date',
+                'role' => 'nullable|string',
+                'email' => 'required|string|unique:users,email',
+                'password' => 'required|string|confirmed|min:8|max:12|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$/'
+            ]);
 
-        $hash = md5(strtolower(trim($fields['email'])));
+            $hash = md5(strtolower(trim($fields['email'])));
 
-        $user = User::create([
-            'name' =>  $fields['name'],
-            'email' => $fields['email'],
-            'username' => strtolower($fields['username']),
-            'avatar' => 'https://www.gravatar.com/avatar/'.$hash,
-            'password' => bcrypt($fields['password'])
-        ]);
+            $user = User::create([
+                'name' =>  $fields['name'],
+                'email' => $fields['email'],
+                'username' => strtolower($fields['username']),
+                'avatar' => 'https://www.gravatar.com/avatar/'.$hash,
+                'password' => bcrypt($fields['password'])
+            ]);
 
-        $user->profile()->create([
-            'name' => $fields['name'],
-            'dob' => $fields['dob'] 
-        ]);
+            $user->profile()->create([
+                'name' => $fields['name'],
+                'dob' => $fields['dob'] 
+            ]);
 
-        $user->setting()->create([
-            'font' => 'roboto',
-            'theme' => 'dark',
-            'language' => 'en'
-        ]);
+            $user->setting()->create([
+                'font' => 'roboto',
+                'theme' => 'dark',
+                'language' => 'en'
+            ]);
 
-        if (isset($fields['role'])){
-            $user->assignRole($fields['role']);
-        }else {
-            $user->assignRole('user');
+            if (isset($fields['role'])){
+                $user->assignRole($fields['role']);
+            }else {
+                $user->assignRole('user');
+            }
+
+            event(new Registered($user));
+
+            $response = [
+                'message' => 'Admin registration successful'
+            ];
+
+            return $response;
+
+        } catch (Exception $e){
+                return response(['message' => $e->getMessage()], $e->getCode());
         }
-
-        event(new Registered($user));
-
-        $response = [
-            'message' => 'Admin registration successful'
-        ];
-
-        return $response;
-
-    } catch (Exception $e){
-            return response(['message' => $e->getMessage()], 400);
-    }
     }
 
         /**
