@@ -10,6 +10,7 @@ import food from "./features/food/foodSlice";
 import health from "./features/health/healthSlice";
 import sport from "./features/sport/sportSlice";
 import subscription from "./features/plan/planSlice";
+import report from "./features/report/reportSlice";
 
 export const store = configureStore({
     reducer: {
@@ -23,6 +24,7 @@ export const store = configureStore({
         food,
         health,
         sport,
+        report,
         subscription,
     },
 });

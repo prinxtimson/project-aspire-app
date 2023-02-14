@@ -6,7 +6,7 @@ import FusionCharts from "fusioncharts";
 import Column2D from "fusioncharts/fusioncharts.charts";
 import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
 import { useTranslation } from "react-i18next";
-import { getSubscription } from "../features/plan/planSlice";
+import { getAllSubscription } from "../features/plan/planSlice";
 import DashboardContainer from "../components/DashboardContainer";
 import ProductsTrendChart from "../components/ProductsTrendChart";
 
@@ -16,11 +16,11 @@ const ProductTrends = () => {
     const { t } = useTranslation(["dashboard"]);
 
     const dispatch = useDispatch();
-    const { data } = useSelector((state) => state.subscription);
+    const { subscriptions } = useSelector((state) => state.subscription);
 
     useEffect(() => {
         ReactGA.pageview(window.location.pathname);
-        dispatch(getSubscription());
+        dispatch(getAllSubscription());
     }, []);
 
     return (
@@ -28,7 +28,10 @@ const ProductTrends = () => {
             <div className="container-fluid p-4">
                 <div className="row">
                     <div className="col mb-4">
-                        <ProductsTrendChart products={data} height={500} />
+                        <ProductsTrendChart
+                            products={subscriptions}
+                            height={500}
+                        />
                     </div>
                 </div>
             </div>

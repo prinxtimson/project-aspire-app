@@ -70,6 +70,11 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         return $this->hasMany(Subscription::class);
     }
 
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
+
     public function bookings ()
     {
        return $this->hasMany(Booking::class);

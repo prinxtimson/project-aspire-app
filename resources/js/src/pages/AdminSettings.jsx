@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ReactGA from "react-ga";
 import { toast } from "react-toastify";
 import i18next from "i18next";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import AdminDashboardContainer from "../components/AdminDashboardContainer";
 import { updateSetting, reset } from "../features/auth/authSlice";
@@ -25,6 +26,7 @@ const LANGUAGES = [
 ];
 
 const AdminSettings = () => {
+    const { t } = useTranslation(["login"]);
     const [data, setData] = useState({
         language: "",
         font: "",
@@ -52,7 +54,7 @@ const AdminSettings = () => {
     }, [user, isError, isSuccess, message, dispatch]);
 
     const handleOnChange = (e) =>
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        setData({ ...data, [e.target.name]: e.target.value });
 
     useEffect(() => {
         setData({
@@ -76,7 +78,7 @@ const AdminSettings = () => {
                 >
                     <div className="card-body">
                         <h1 className="card-title text-primary text-center mb-4">
-                            {t("title")}
+                            Settings
                         </h1>
                         {isError && (
                             <div
@@ -99,11 +101,11 @@ const AdminSettings = () => {
                                     value={data.language}
                                     onChange={handleOnChange}
                                 >
-                                    <option selected>
-                                        Select preferred Language
-                                    </option>
+                                    <option>Select preferred Language</option>
                                     {LANGUAGES.map(({ code, name }) => (
-                                        <option value={code}>{name}</option>
+                                        <option value={code} key={code}>
+                                            {name}
+                                        </option>
                                     ))}
                                 </select>
 

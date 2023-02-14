@@ -102,10 +102,22 @@ class SubscriptionController extends Controller
         $subscription = Subscription::find($id);
 
         $subscription->update([
-            'is_active' => false
+            'status' => 'SUSPENDED'
         ]);
 
-        return $subscription;
+        return ['message' => "Subscription deactivated successfully"];
+    }
+
+    public function activate($id)
+    {
+        //
+        $subscription = Subscription::find($id);
+
+        $subscription->update([
+            'status' => 'ACTIVE'
+        ]);
+
+        return ['message' => "Subscription activated successfully"];
     }
 
     /**
@@ -135,19 +147,27 @@ class SubscriptionController extends Controller
 
     public function cancel(Request $request, $id)
     {
-       $username = env('PAYPAL_USER');
-        $password = env('PAYPAL_PASSWORD');
+    //    $username = env('PAYPAL_USER');
+    //     $password = env('PAYPAL_PASSWORD');
 
-        $token = Http::withBasicAuth($username, $password)->post('https://api-m.sandbox.paypal.com/v1/oauth2/token', [
-            'grant_type' => 'client_credentials'
-        ])->json();
+    //     $token = Http::withBasicAuth($username, $password)->post('https://api-m.sandbox.paypal.com/v1/oauth2/token', [
+    //         'grant_type' => 'client_credentials'
+    //     ])->json();
 
-        $response = Http::withToken($token['access_token'])->withHeaders([
-            "Content-Type" => "application/json",
-            "Accept" => 'application/json'
-        ])->post('https://api-m.sandbox.paypal.com/v1/billing/subscriptions/'.$id.'/cancel', $request->only('reason'));
+    //     $response = Http::withToken($token['access_token'])->withHeaders([
+    //         "Content-Type" => "application/json",
+    //         "Accept" => 'application/json'
+    //     ])->post('https://api-m.sandbox.paypal.com/v1/billing/subscriptions/'.$id.'/cancel', $request->only('reason'));
 
-        return $response->throw()->json();
+    //     return $response->throw()->json();
+
+        $subscription = Subscription::find($id);
+
+        $subscription->update([
+            'status' => 'CANCELLED'
+        ]);
+
+        return ['message' => "Subscription canceled successfully"];
     }
 
     public function on_suspended(Request $request)
@@ -186,13 +206,13 @@ class SubscriptionController extends Controller
     public function destroy($id)
     {
         //
-        $user = auth()->user();
+        //$user = auth()->user();
 
         $subscription = Subscription::find($id);
 
         $subscription->delete();
 
-        $user->notify(new SubscriptionCancel($subscription));
+        //$user->notify(new SubscriptionCancel($subscription));
 
         return $subscription;
     }

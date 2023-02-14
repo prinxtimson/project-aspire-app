@@ -126,6 +126,9 @@ Route::middleware(['auth:sanctum', '2fa', 'verified'])->group(function () {
             Route::get("", function () {
                 return view('welcome');
             });
+            Route::get("settings", function () {
+                return view('welcome');
+            });
             Route::group(['prefix' => 'manage-account'], function () {
                 Route::get("", function () {
                     return view('welcome');
@@ -137,6 +140,29 @@ Route::middleware(['auth:sanctum', '2fa', 'verified'])->group(function () {
                     return view('welcome');
                 });
                 Route::get("delete-account", function () {
+                    return view('welcome');
+                });
+            });
+            Route::group(['prefix' => 'manage-users'], function () {
+                Route::get("", function () {
+                    return view('welcome');
+                });
+                Route::get("subscription", function () {
+                    return view('welcome');
+                });
+            });
+
+            Route::group(['prefix' => 'analytics'], function () {
+                Route::get("", function () {
+                    return view('welcome');
+                });
+                Route::get("export-report", function () {
+                    return view('welcome');
+                });
+                Route::get("archived-report", function () {
+                    return view('welcome');
+                });
+                Route::get("deleted-report", function () {
                     return view('welcome');
                 });
             });

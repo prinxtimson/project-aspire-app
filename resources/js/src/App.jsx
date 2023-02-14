@@ -51,7 +51,7 @@ import UsersTable from "./components/UsersTable";
 import HealthChart from "./components/HealthChart";
 import FoodChart from "./components/FoodChart";
 import EntertainmentChart from "./components/EntertainmentChart";
-import SubscriptionTable from "./components/SubscriptionTable";
+import SubscriptionTable from "./pages/SubscriptionTable";
 import SportsChart from "./components/SportsChart";
 import AdminDashboard from "./components/AdminDashboard";
 import AdminReport from "./pages/AdminReport";
@@ -69,6 +69,11 @@ import AdminEmailVerification from "./pages/AdminEmailVerification";
 import AdminProfile from "./pages/AdminProfile";
 import EditAdminProfile from "./pages/EditAdminProfile";
 import DeleteAdminProfile from "./pages/DeleteAdminProfile";
+import AllUsers from "./pages/AllUsers";
+import ExportAdminReport from "./pages/ExportAdminReport";
+import ArchivedAdminReport from "./pages/ArchivedAdminReport";
+import DeletedAdminReport from "./pages/DeletedAdminReport";
+import AdminSettings from "./pages/AdminSettings";
 
 ReactGA.initialize("UA-209541600-1");
 
@@ -219,6 +224,40 @@ const App = () => {
                                     </AuthRoute>
                                 }
                             />
+                            <Route path="analytics">
+                                <Route
+                                    path=""
+                                    element={
+                                        <AuthRoute>
+                                            <AdminReport />
+                                        </AuthRoute>
+                                    }
+                                />
+                                <Route
+                                    path="export-report"
+                                    element={
+                                        <AuthRoute>
+                                            <ExportAdminReport />
+                                        </AuthRoute>
+                                    }
+                                />
+                                <Route
+                                    path="archived-report"
+                                    element={
+                                        <AuthRoute>
+                                            <ArchivedAdminReport />
+                                        </AuthRoute>
+                                    }
+                                />
+                                <Route
+                                    path="deleted-report"
+                                    element={
+                                        <AuthRoute>
+                                            <DeletedAdminReport />
+                                        </AuthRoute>
+                                    }
+                                />
+                            </Route>
                             <Route path="manage-account">
                                 <Route
                                     path=""
@@ -253,6 +292,32 @@ const App = () => {
                                     }
                                 />
                             </Route>
+                            <Route path="manage-users">
+                                <Route
+                                    path=""
+                                    element={
+                                        <AuthRoute>
+                                            <AllUsers />
+                                        </AuthRoute>
+                                    }
+                                />
+                                <Route
+                                    path="subscription"
+                                    element={
+                                        <AuthRoute>
+                                            <SubscriptionTable />
+                                        </AuthRoute>
+                                    }
+                                />
+                            </Route>
+                            <Route
+                                path="settings"
+                                element={
+                                    <AuthRoute>
+                                        <AdminSettings />
+                                    </AuthRoute>
+                                }
+                            />
                         </Route>
 
                         <Route
@@ -370,14 +435,14 @@ const App = () => {
                                 </AuthRoute>
                             }
                         />
-                        <Route
+                        {/* <Route
                             path="account"
                             element={
                                 <AuthRoute>
                                     <SubscriptionTable />
                                 </AuthRoute>
                             }
-                        />
+                        /> */}
                         <Route
                             path="sport"
                             element={

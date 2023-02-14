@@ -12,14 +12,13 @@ import {
     getPageVisit,
     clearAnalytics,
 } from "../features/analytics/analyticsSlice";
-import DashboardContainer from "../components/DashboardContainer";
+import AdminDashboardContainer from "../components/AdminDashboardContainer";
 import BounceRateChart from "../components/BounceRateChart";
 import DurationChart from "../components/DurationChart";
 import PageVisitedChart from "../components/PageVisitedChart";
 import LocationChart from "../components/LocationChart";
 import UserTypeChart from "../components/UserTypeChart";
 import VisitorsChart from "../components/VisitorsChart";
-import ShareDialog from "../components/ShareDialog";
 import { Link } from "react-router-dom";
 
 const AdminReport = () => {
@@ -65,7 +64,7 @@ const AdminReport = () => {
     };
 
     return (
-        <DashboardContainer>
+        <AdminDashboardContainer>
             <div className="container-fluid p-4">
                 <div className="row mb-5">
                     <div className="row mb-4 col-md-6">
@@ -95,23 +94,7 @@ const AdminReport = () => {
                     </div>
 
                     <div className="row mb-4 col-md-6">
-                        <div className="col-sm-6">
-                            <select
-                                className="form-select"
-                                aria-label="example"
-                                name="format"
-                                value={format}
-                                onChange={(e) => setFormat(e.target.value)}
-                            >
-                                <option value="">Select format</option>
-                                {TYPES.map((item) => (
-                                    <option key={item.name} value={item.value}>
-                                        {item.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="col-sm-3">
+                        {/* <div className="col-sm-3">
                             <a
                                 href={`/analytics/download?period=${period}&type=${format}`}
                                 download
@@ -137,34 +120,10 @@ const AdminReport = () => {
                                     data-pr-tooltip="Share"
                                 ></i>
                             </button>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
-                <div className="my-4">
-                    <div className="dropdown">
-                        <button
-                            className="btn btn-secondary dropdown-toggle"
-                            type="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                        >
-                            Product Catalogue
-                        </button>
-                        <ul className="dropdown-menu">
-                            {PRODUCTS.map((product) => (
-                                <li key={product.name}>
-                                    <Link
-                                        to={product.url}
-                                        className="dropdown-item"
-                                    >
-                                        {product.name}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-                <ShareDialog period={period} />
+
                 <div className="row">
                     <div className="col col-md-6 mb-4">
                         <VisitorsChart visit={visit} period={period} />
@@ -189,7 +148,7 @@ const AdminReport = () => {
                     </div>
                 </div>
             </div>
-        </DashboardContainer>
+        </AdminDashboardContainer>
     );
 };
 

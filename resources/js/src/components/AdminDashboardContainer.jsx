@@ -91,8 +91,8 @@ const AdminDashboardContainer = ({ children }) => {
 
             <div className="wrapper d-flex align-items-stretch flex-grow-1">
                 <nav
-                    className={`sidebar flex-column flex-shrink-0 px-3 py-2 text-white d-flex ${
-                        isActive ? "active" : null
+                    className={`sidebar flex-column flex-shrink-0 px-3 py-2 text-white d-xl-flex ${
+                        isActive ? "d-flex" : "d-none"
                     }`}
                     style={{ backgroundColor: "#00a7ad", minWidth: 250 }}
                     id="sidebarMenu"
@@ -125,17 +125,57 @@ const AdminDashboardContainer = ({ children }) => {
                             </Link>
                         </li>
                         <li>
-                            <Link
-                                to="#"
-                                className={`nav-link fw-bold ${
+                            <button
+                                className={`btn nav-link fw-bold ${
                                     window.location.pathname ===
                                     "/admin/dashboard/analytics"
                                         ? "active-tab bg-white"
                                         : "text-white"
                                 }`}
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#analytics"
+                                aria-expanded="false"
+                                aria-controls="analytics"
                             >
                                 Analytics
-                            </Link>
+                            </button>
+                            <div className="collapse" id="analytics">
+                                <ul className="nav nav-pills flex-column mb-auto">
+                                    <li className="ps-3">
+                                        <Link
+                                            to="/admin/dashboard/analytics"
+                                            className="nav-link text-white"
+                                        >
+                                            Generate Report
+                                        </Link>
+                                    </li>
+                                    <li className="ps-3">
+                                        <Link
+                                            to="/admin/dashboard/analytics/export-report"
+                                            className="nav-link text-white"
+                                        >
+                                            Export Report
+                                        </Link>
+                                    </li>
+                                    <li className="ps-3">
+                                        <Link
+                                            to="/admin/dashboard/analytics/archived-report"
+                                            className="nav-link text-white"
+                                        >
+                                            Archived Report
+                                        </Link>
+                                    </li>
+                                    <li className="ps-3">
+                                        <Link
+                                            to="/admin/dashboard/analytics/deleted-report"
+                                            className="nav-link text-white"
+                                        >
+                                            Deleted Report
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
 
                         <li>
@@ -192,30 +232,41 @@ const AdminDashboardContainer = ({ children }) => {
                             </div>
                         </li>
                         <li>
-                            <Link
-                                to="#"
-                                className={`nav-link fw-bold ${
+                            <button
+                                className={`btn nav-link fw-bold ${
                                     window.location.pathname ===
-                                    "/admin/dashboard/manage-subscription"
+                                    "/admin/dashboard/manage-users"
                                         ? "active-tab bg-white"
                                         : "text-white"
                                 }`}
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#manageUsers"
+                                aria-expanded="false"
+                                aria-controls="manageUsers"
                             >
-                                Manage Subscription
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                to="#"
-                                className={`nav-link fw-bold ${
-                                    window.location.pathname ===
-                                    "/admin/dashboard/admin-users"
-                                        ? "active-tab bg-white"
-                                        : "text-white"
-                                }`}
-                            >
-                                Admin Users
-                            </Link>
+                                Manage Users
+                            </button>
+                            <div className="collapse" id="manageUsers">
+                                <ul className="nav nav-pills flex-column mb-auto">
+                                    <li className="ps-3">
+                                        <Link
+                                            to="/admin/dashboard/manage-users"
+                                            className="nav-link text-white"
+                                        >
+                                            View Users
+                                        </Link>
+                                    </li>
+                                    <li className="ps-3">
+                                        <Link
+                                            to="/admin/dashboard/manage-users/subscription"
+                                            className="nav-link text-white"
+                                        >
+                                            Manage Subscription
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                         <li>
                             <Link

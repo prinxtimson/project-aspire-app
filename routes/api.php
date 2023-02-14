@@ -10,6 +10,8 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\AnalysisController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,7 +53,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::post('/subscription/save-payment', [SubscriptionController::class, 'store']);
-    Route::post('/subscription/{id}/cancel', [SubscriptionController::class, 'cancel']);
+    Route::post('/subscription/{id}/cancel', [SubscriptionController::class, 'cancel']); 
     Route::put('/subscription/{id}', [SubscriptionController::class, 'update']);
 
     Route::get('health', [ChartController::class, 'health_history']);
@@ -104,7 +106,19 @@ Route::group(['middleware' => ['auth:sanctum', 'role:admin', 'verified']], funct
     Route::put('/content/{id}', [ContentController::class, 'update']);
 
     Route::get('/subscription', [SubscriptionController::class, 'index']);
-    // Route::put('users/disable/{id}', [UserController::class, 'disable']);
-    // Route::put('users/enable/{id}', [UserController::class, 'enable']);
+    Route::put('/subscription/activate/{id}', [SubscriptionController::class, 'activate']);
+    Route::put('/subscription/deactivate/{id}', [SubscriptionController::class, 'deactivate']);
+    Route::delete('/subscription/delete/{id}', [SubscriptionController::class, 'destroy']);
 
+    Route::get('report', [ReportController::class, 'index']);
+    Route::post('report', [ReportController::class, 'store']);
+    Route::get('report/{id}', [ReportController::class, 'show']);
+    Route::put('report/archived/{id}', [ReportController::class, 'archived']);
+    Route::put('report/trashed/{id}', [ReportController::class, 'trashed']);
+    Route::put('report/restored/{id}', [ReportController::class, 'restored']);
+    Route::delete('report/delete/{id}', [ReportController::class, 'destroy']);
+
+    Route::put('users/disable/{id}', [UserController::class, 'disable']);
+    Route::put('users/enable/{id}', [UserController::class, 'enable']);
+    Route::delete('users/delete/{id}', [UserController::class, 'destroy']);
 });

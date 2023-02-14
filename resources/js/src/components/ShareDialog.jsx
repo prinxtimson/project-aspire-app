@@ -1,14 +1,22 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
-const ShareDialog = ({ period }) => {
+const ShareDialog = ({ report }) => {
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
-        period,
+        report_id: "",
         email: "",
-        type: "xlsx",
     });
+
+    useEffect(() => {
+        if (report) {
+            setFormData({
+                email: "",
+                report_id: report.id,
+            });
+        }
+    }, [report]);
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
@@ -19,9 +27,8 @@ const ShareDialog = ({ period }) => {
                 setLoading(false);
                 toast.success(res.data.msg);
                 setFormData({
-                    period,
+                    report_id: "",
                     email: "",
-                    type: "xlsx",
                 });
             })
             .catch((e) => {
@@ -72,29 +79,7 @@ const ShareDialog = ({ period }) => {
                                 />
                                 <label htmlFor="floatingInput">Email</label>
                             </div>
-                            <div className="form-floating col-12">
-                                <select
-                                    className="form-select form-control form-control-lg"
-                                    placeholder="Report Format"
-                                    aria-label="example"
-                                    name="type"
-                                    value={formData.type}
-                                    onChange={handleOnChange}
-                                >
-                                    <option value=""></option>
-                                    {TYPES.map((item) => (
-                                        <option
-                                            key={item.name}
-                                            value={item.value}
-                                        >
-                                            {item.name}
-                                        </option>
-                                    ))}
-                                </select>
-                                <label htmlFor="floatingInput">
-                                    Select Report Format
-                                </label>
-                            </div>
+
                             <div className="d-flex justify-content-between col-12">
                                 <button
                                     type="button"
@@ -120,10 +105,3 @@ const ShareDialog = ({ period }) => {
 };
 
 export default ShareDialog;
-
-const TYPES = [
-    { name: "Excel", value: "xlsx" },
-    { name: "CSV", value: "csv" },
-    { name: "PDF", value: "pdf" },
-    { name: "HTML", value: "html" },
-];

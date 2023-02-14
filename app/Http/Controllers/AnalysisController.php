@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Analytics;
 use App\Exports\ReportsExport;
 use App\Mail\AnalyticsReport;
+use App\Models\Report;
 use App\Models\User;
 use App\Notifications\ReportShare;
 use Carbon\Carbon;
@@ -146,36 +147,21 @@ class AnalysisController extends Controller
     {
         $fields = $request->validate([
             'email' => 'required|string',
-            'period' => 'required',
-            'type' => 'required|string',
+            'report_id' => 'required|integer',
         ]);
 
         $email = $fields['email'];
-        $period = $fields['period'];
-        $type = $fields['type'];
-        $date = Carbon::now()->getTimestamp();
+        $report_id = $fields['report_id'];
 
-        $filename = 'elintx_report_'.$date.'.'.$type;
-       
-        $result = 0;
+        $report = Report::find($report_id);
 
-        if($type == 'xlsx'){
-            $result = $this->excel->store(new ReportsExport($period), $filename, null, Excel::XLSX);
-        }elseif($type == 'csv'){
-            $result = $this->excel->store(new ReportsExport($period), $filename, null, Excel::CSV);
-        }elseif($type == 'pdf'){
-            $result = $this->excel->store(new ReportsExport($period), $filename, null, Excel::MPDF);
-        }elseif($type == 'html'){
-            $result = $this->excel->store(new ReportsExport($period), $filename, null, Excel::HTML);
-        }
-
-        if($result){
+        if($report){
             try{
-                Mail::to($email)->send(new AnalyticsReport($filename));
+                Mail::to($email)->send(new AnalyticsReport($report->name));
 
                 $users = User::role('admin')->get();
 
-                Notification::send($users, new ReportShare($email));
+                //Notification::send($users, new ReportShare($email));
 
                 return ['msg' => 'Email had been sent'];
             }

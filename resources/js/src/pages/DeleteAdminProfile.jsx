@@ -17,6 +17,16 @@ const DeleteAdminProfile = () => {
         ReactGA.pageview(window.location.pathname);
     }, []);
 
+    const handleDeleteAccount = () => {
+        if (
+            window.confirm(
+                'You have requested to permanently delete your account. This will mean you will no longer be able to access the portal. Click "YES" if you are sure you really want to permanently delete your account. Click "NO" to stop or continue to access your account.'
+            )
+        ) {
+            dispatch(deleteAccount());
+        }
+    };
+
     return (
         <AdminDashboardContainer>
             <div className="container-fluid">
@@ -57,7 +67,7 @@ const DeleteAdminProfile = () => {
                                 } btn-lg text-white`}
                                 type="button"
                                 disabled={isLoading}
-                                onClick={() => dispatch(deleteAccount())}
+                                onClick={handleDeleteAccount}
                             >
                                 {t("delete_btn")}
                             </button>

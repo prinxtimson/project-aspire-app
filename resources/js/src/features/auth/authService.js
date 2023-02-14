@@ -106,15 +106,27 @@ const resendVerification = async () => {
 };
 
 const deleteAccount = async () => {
-    if (
-        window.confirm(
-            'You have requested to permanently delete your account. This will mean you will no longer be able to access the portal. Click "YES" if you are sure you really want to permanently delete your account. Click "NO" to stop or continue to access your account.'
-        )
-    ) {
-        const res = await axios.delete(`/delete-account`);
+    const res = await axios.delete(`/delete-account`);
 
-        return res.data;
-    }
+    return res.data;
+};
+
+const deactivateUser = async (id) => {
+    const res = await axios.put(`${API_URL}/users/disable/${id}`);
+
+    return res.data;
+};
+
+const activateUser = async (id) => {
+    const res = await axios.put(`${API_URL}/users/enable/${id}`);
+
+    return res.data;
+};
+
+const deleteUser = async (id) => {
+    const res = await axios.delete(`${API_URL}/users/delete/${id}`);
+
+    return res.data;
 };
 
 const authService = {
@@ -133,6 +145,9 @@ const authService = {
     deleteAccount,
     markNotification,
     updateSetting,
+    deleteUser,
+    activateUser,
+    deactivateUser,
 };
 
 export default authService;

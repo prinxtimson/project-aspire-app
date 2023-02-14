@@ -132,6 +132,20 @@ class UserController extends Controller
         }
     }
 
+    public function disable($id)
+    {
+        User::find($id)->delete();
+
+        return ['message' => "Account deactivated successfully"];
+    }
+
+    public function enable($id)
+    {
+        User::withTrashed()->find($id)->restore();
+
+        return ['message' => "Account activated successfully"];
+    }
+
         /**
      * Remove the specified resource from storage.
      *
@@ -141,8 +155,6 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::withTrashed()->find($id)->load(['roles']);
-
-        //$user->reports()->delete();
 
         $deleted = $user->forceDelete($id);
 

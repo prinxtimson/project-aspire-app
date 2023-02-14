@@ -10,6 +10,7 @@ const initialState = {
     user: user === "undefined" ? null : JSON.parse(user),
     tfa: tfa == "undefined" ? null : tfa,
     token: token == "undefined" ? null : token,
+    notifications: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -280,6 +281,78 @@ export const deleteAccount = createAsyncThunk(
     }
 );
 
+export const deleteUser = createAsyncThunk(
+    "auth/delete-user",
+    async (id, thunkAPI) => {
+        try {
+            return await authService.deleteUser(id);
+        } catch (err) {
+            if (err.response.status === 401 || err.response.status === 403) {
+                localStorage.removeItem("elintx-user");
+                localStorage.removeItem("elintx-access-token");
+                localStorage.removeItem("elintx-2fa");
+                thunkAPI.dispatch(clearUser());
+            }
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
+
+export const deactivateUser = createAsyncThunk(
+    "auth/deactivate-user",
+    async (id, thunkAPI) => {
+        try {
+            return await authService.deactivateUser(id);
+        } catch (err) {
+            if (err.response.status === 401 || err.response.status === 403) {
+                localStorage.removeItem("elintx-user");
+                localStorage.removeItem("elintx-access-token");
+                localStorage.removeItem("elintx-2fa");
+                thunkAPI.dispatch(clearUser());
+            }
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
+
+export const activateUser = createAsyncThunk(
+    "auth/activate-user",
+    async (id, thunkAPI) => {
+        try {
+            return await authService.activateUser(id);
+        } catch (err) {
+            if (err.response.status === 401 || err.response.status === 403) {
+                localStorage.removeItem("elintx-user");
+                localStorage.removeItem("elintx-access-token");
+                localStorage.removeItem("elintx-2fa");
+                thunkAPI.dispatch(clearUser());
+            }
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
+
 export const resendVerification = createAsyncThunk(
     "auth/resend-verification",
     async (thunkAPI) => {
@@ -364,6 +437,45 @@ export const authSlice = createSlice({
                 state.isError = true;
                 state.user = null;
                 state.token = null;
+                state.message = action.payload;
+            })
+            .addCase(activateUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(activateUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.message = action.payload.message;
+            })
+            .addCase(activateUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(deactivateUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(deactivateUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.message = action.payload.message;
+            })
+            .addCase(deactivateUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(deleteUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(deleteUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.message = action.payload.message;
+            })
+            .addCase(deleteUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
                 state.message = action.payload;
             })
             .addCase(updateUser.pending, (state) => {

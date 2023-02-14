@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use Analytics;
+use Carbon\Carbon;
 use Spatie\Analytics\Period;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
@@ -12,8 +13,11 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
-class DurationExport implements FromArray, WithMapping, ShouldAutoSize, WithHeadings, WithEvents, WithCustomStartCell, WithTitle
+class DurationExport implements FromArray, WithMapping, ShouldAutoSize, WithHeadings, WithEvents, WithCustomStartCell, WithTitle, WithStyles
 {
     private $period;
 
@@ -38,8 +42,9 @@ class DurationExport implements FromArray, WithMapping, ShouldAutoSize, WithHead
     public function map($duration): array
     {
          return [
-            date("d F, Y", $duration[0]),
-            $duration[1] . " secs",
+            Carbon::createFromFormat('Ymd', $duration[0])->format("d F, Y"),
+            $duration[1], 
+            $duration[2] . " secs",
         ];
     }
 
@@ -48,6 +53,7 @@ class DurationExport implements FromArray, WithMapping, ShouldAutoSize, WithHead
         return [
         
             'Date',
+            'Total Sessions',
             'Time Duration',
         ];
     }
@@ -56,7 +62,7 @@ class DurationExport implements FromArray, WithMapping, ShouldAutoSize, WithHead
     {
         return [
             AfterSheet::class => function(AfterSheet $event) {
-                $event->sheet->getStyle('B3:C3')->applyFromArray([
+                $event->sheet->getStyle('B3:D3')->applyFromArray([
                     'font' => [
                         'bold' => true,
                     ],
@@ -73,5 +79,13 @@ class DurationExport implements FromArray, WithMapping, ShouldAutoSize, WithHead
     public function title(): string
     {
         return 'Duration Rate';
+    }
+
+    public function styles(Worksheet $sheet)
+    {
+        return [
+            // Styling a specific cell by coordinate.
+            'C' => ['alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER]],
+        ];
     }
 }

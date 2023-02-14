@@ -4,17 +4,18 @@ import planService from "./planService";
 
 const initialState = {
     data: null,
+    subscriptions: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
     message: "",
 };
 
-export const getSubscription = createAsyncThunk(
-    "plan/get-subscription",
+export const getAllSubscription = createAsyncThunk(
+    "plan/get-subscriptions",
     async (thunkAPI) => {
         try {
-            return await planService.getSubscription();
+            return await planService.getAllSubscription();
         } catch (err) {
             const msg =
                 (err.response &&
@@ -92,6 +93,78 @@ export const cancelSubscription = createAsyncThunk(
     }
 );
 
+export const deleteSubscription = createAsyncThunk(
+    "plan/delete-subscription",
+    async (id, thunkAPI) => {
+        try {
+            return await planService.deleteSubscription(id);
+        } catch (err) {
+            if (err.response.status === 401 || err.response.status === 403) {
+                localStorage.removeItem("elintx-user");
+                localStorage.removeItem("elintx-access-token");
+                localStorage.removeItem("elintx-2fa");
+                thunkAPI.dispatch(clearUser());
+            }
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
+
+export const deactivateSubscription = createAsyncThunk(
+    "plan/deactivate-subscription",
+    async (id, thunkAPI) => {
+        try {
+            return await planService.deactivateSubscription(id);
+        } catch (err) {
+            if (err.response.status === 401 || err.response.status === 403) {
+                localStorage.removeItem("elintx-user");
+                localStorage.removeItem("elintx-access-token");
+                localStorage.removeItem("elintx-2fa");
+                thunkAPI.dispatch(clearUser());
+            }
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
+
+export const activateSubscription = createAsyncThunk(
+    "plan/activate-subscription",
+    async (id, thunkAPI) => {
+        try {
+            return await planService.activateSubscription(id);
+        } catch (err) {
+            if (err.response.status === 401 || err.response.status === 403) {
+                localStorage.removeItem("elintx-user");
+                localStorage.removeItem("elintx-access-token");
+                localStorage.removeItem("elintx-2fa");
+                thunkAPI.dispatch(clearUser());
+            }
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
+
 export const subscriptionSlice = createSlice({
     name: "plan",
     initialState,
@@ -104,18 +177,19 @@ export const subscriptionSlice = createSlice({
         },
         clearSubscription: (state) => {
             state.data = null;
+            state.subscriptions = [];
         },
     },
     extraReducers: (builder) => {
         builder
-            .addCase(getSubscription.pending, (state) => {
+            .addCase(getAllSubscription.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(getSubscription.fulfilled, (state, action) => {
+            .addCase(getAllSubscription.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.data = action.payload;
+                state.subscriptions = action.payload;
             })
-            .addCase(getSubscription.rejected, (state, action) => {
+            .addCase(getAllSubscription.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;
@@ -141,6 +215,45 @@ export const subscriptionSlice = createSlice({
                 state.message = "subscription cancel successful";
             })
             .addCase(cancelSubscription.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(activateSubscription.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(activateSubscription.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.message = action.payload;
+            })
+            .addCase(activateSubscription.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(deactivateSubscription.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(deactivateSubscription.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.message = action.payload;
+            })
+            .addCase(deactivateSubscription.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(deleteSubscription.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(deleteSubscription.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.message = action.payload;
+            })
+            .addCase(deleteSubscription.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;
